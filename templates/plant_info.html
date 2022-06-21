@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>SAP-Pflapp-Hub</title>
+{% endblock %}
+
+{% block body %}
+<nav>
+    <a href="/"><img src="{{ url_for('static', filename='client/img/021-botanic.svg') }}" alt="Home">HOME</a>
+</nav>
+
+<div class="center">
+    <h1>Details to {{ plant.name }}</h1>
+    <div class="details">
+        <div class="humidity">{{ humidity.humidity }}%</div>
+        <div class="kind">{{ plant.species }}</div>
+        <div class="time">{{ humidity.date_time|convert_date }}</div>
+        <div class="center graph">
+            <img src="{{ url_for('static', filename='client/img/graph.png') }}" align="middle" />
+        </div>
+    </div>
+</div>
+{% endblock %}

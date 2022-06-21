@@ -1,0 +1,135 @@
+/* * {
+    border: 1px solid red;
+} */
+
+.hidden{
+    /* visibility: hidden; */
+}
+
+body {
+    background: #353535;
+}
+
+body * {
+    font-family: Arial, Helvetica, sans-serif;
+    border-radius: 30px;
+}
+
+nav {
+    background: #5b5b5b;
+    height: 12vh;
+
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    vertical-align: middle;;
+}
+nav *{
+    /* border: red 1px solid; */
+    height: 10vh;
+    font-size: 8vh;
+    color: #a9ba5a;
+    text-decoration: none;
+    vertical-align: bottom;
+    margin: auto;
+}
+nav>:first-child{
+    margin-left: 1%;
+}
+nav a{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+
+h1 {
+
+    text-align: center;
+
+    font-style: normal;
+    font-size: 5em;
+
+    color: #a9ba5a;
+
+}
+
+h2{
+    text-align: left;
+    font-style: normal;
+    font-size: 3em;
+    color: #a9ba5a;
+    margin: 1%;
+}
+
+.center>* {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+
+    text-align: center;
+}
+
+.plantlist {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1vw;
+    top: 274px;
+
+    overflow: auto;
+}
+
+.tile {
+    display: flex;
+    flex-direction: column;
+    min-width: 265.67px;
+    min-height: 293px;
+    /* min-height: 8000px; */
+
+    flex: none;
+    flex-grow: 0;
+}
+
+.plant {
+    background: #a9ba5a;
+}
+
+.plant>* {
+    margin-top: 0%;
+    margin-bottom: 5%;
+}
+
+.plant>img {
+    width: 130px;
+    height: 130px;
+
+    margin-top: 15%;
+}
+
+.plant>.name {
+    font-size: 2em;
+}
+
+.plant>.room {
+    font-size: 1.5em;
+}
+
+.details{
+    background: #5b5b5b;
+    width: 90vw;
+    min-height:20vh;
+}
+
+.humidity{
+    color: #007acc;
+    font-size: 7em;
+    font-weight: 400%;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+.kind, .time{
+    font-size: 5em;
+}
+
+.center.graph {
+    padding-top: 5%;
+    padding-bottom: 5%;
+}
