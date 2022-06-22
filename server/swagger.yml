@@ -1,0 +1,135 @@
+swagger: "2.0"
+info:
+  description: API configuration file for the Szapp-Pflapp Webapplication.
+  version: "0.1"
+  title: Szapp-Pflapp Config file
+consumes:
+  - "application/json"
+produces:
+  - "application/json"
+
+basePath: "/api"
+
+paths:
+  /plants:
+    get:
+      operationId: plants.read_all
+      tags:
+        - Plants
+      summary: Read the entire list of plants
+      description: Read the list of plants
+      parameters:
+        - name: length
+          in: query
+          type: integer
+          description: Number of plants to get from plants
+          required: false
+        - name: offset
+          in: query
+          type: integer
+          description: Offset from beginning of list where to start gathering plants
+          required: false
+      responses:
+        200:
+          description: Successfully read plants list operation
+          schema:
+            type: array
+            items:
+              properties:
+                name:
+                  type: string
+                id:
+                  type: integer
+                creation-date:
+                  type: string
+                last-update:
+                  type: string
+    post:
+      operationId: plants.create
+      tags:
+        - plants
+      summary: Create a plant and add it to the plants list
+      description: Create a new plant in the plants list
+      parameters:
+        - name: plant
+          in: body
+          description: plant to create
+          required: True
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: name of the new plant
+      responses:
+        201:
+          description: Successfully created plant in list
+
+  /plants/{id}:
+    get:
+      operationId: plants.read_one
+      tags:
+        - plants
+      summary: Read one plant from the plants list
+      description: Read one plant from the plants list
+      parameters:
+        - name: id
+          in: path
+          description: ID of the plant to get from the list
+          type: integer
+          required: True
+      responses:
+        200:
+          description: Successfully read plant from plants list operation
+          schema:
+            properties:
+              name:
+                type: string
+              id:
+                type: integer
+              creation-date:
+                type: string
+              last-update:
+                type: string
+# TODO: yml plants.update 
+    put:
+      operationId: plants.update
+      tags:
+        - plants
+      summary: Update a plant in the plants list
+      description: Update a plant in the plants list
+      parameters:
+        - name: id
+          in: path
+        - name: lname
+          in: path
+          description: Last name of the plant to update in the list
+          type: string
+          required: True
+        - name: plant
+          in: body
+          schema:
+            type: object
+            properties:
+              fname:
+                type: string
+              lname:
+                type: string
+      responses:
+        200:
+          description: Successfully updated plant in plants list
+
+    delete:
+      operationId: plants.delete
+      tags:
+        - plants
+      summary: Delete a plant from the plants list
+      description: Delete a plant
+      parameters:
+        - name: id
+          in: path
+          type: id
+          required: True
+      responses:
+        200:
+          description: Successfully deleted a plant from plants list
