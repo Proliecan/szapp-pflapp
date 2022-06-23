@@ -1,5 +1,5 @@
 from datetime import datetime
-from server import db
+from server import db, ma
 
 # -----------------------------------------
 # DataBase configuration 
@@ -12,13 +12,13 @@ class Plant(db.Model):
     name = db.Column(db.String(30), unique=True, nullable=False)
     creation_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     last_update = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    image_file = db.Column(db.String(), unique=False, nullable=False, default='static/client/img/001-botanic.svg')
+    image_file = db.Column(db.String(), unique=False, nullable=False, default='static/img/001-botanic.svg')
     min_fill_value = db.Column(db.Integer, unique=False, nullable=False, default=0)
     max_fill_value = db.Column(db.Integer, unique=False, nullable=False, default=5)
     values = db.relationship('WaterlevelData', backref='name', lazy=True)
 
     def __repr__(self) -> str:
-        return f"Plant('{self.name}', '{self.creation_date}', '{self.last_update}', '{self.image_file}')"
+        return f"TESTPlant('{self.name}', '{self.creation_date}', '{self.last_update}', '{self.image_file}')"
 
 class WaterlevelData(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -28,3 +28,8 @@ class WaterlevelData(db.Model):
 
     def __repr__(self) -> str:
         return f"Plant('{self.value}', '{self.report_time}')"
+
+class PlantSchema(ma.SQLAlchemyAutoSchema):
+      class Meta:
+            model = Plant
+            load_instance = True

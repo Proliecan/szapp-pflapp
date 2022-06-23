@@ -1,82 +1,84 @@
 from datetime import datetime
 from flask import make_response, abort
+from server.db_models import Plant, WaterlevelData, PlantSchema
+from server import db, app
 
-# -----------------------------------------
-# temporary plants data until db
-
-PLANTS = {
-    "P-0001" : {
-        "name" : "Bertha",
-        "id" : 1,
-        "creation-date" : datetime.now().strftime(("%Y-%m-%d %H:%M:%S")),
-        "last-update" : datetime.now().strftime(("%Y-%m-%d %H:%M:%S"))
-    },
-    "P-0002" : {
-        "name" : "Karla",
-        "id" : 2,
-        "creation-date" : datetime.now().strftime(("%Y-%m-%d %H:%M:%S")),
-        "last-update" : datetime.now().strftime(("%Y-%m-%d %H:%M:%S"))
-    },
-}
-
-PLANTS_DATA = {
-    "0001" : {
-        "id" : 1,
-        "plant-id" : 1,
-        "value" : 0.56, # waterlevel
-        "time" : datetime.now().strftime(("%Y-%m-%d %H:%M:%S"))
-    },
-    "0002" : {
-        "id" : 2,
-        "plant-id" : 2,
-        "value" : 0.75, # waterlevel
-        "time" : datetime.now().strftime(("%Y-%m-%d %H:%M:%S"))
-    },
-    "0003" : {
-        "id" : 3,
-        "plant-id" : 1,
-        "value" : 0.56, # waterlevel
-        "time" : datetime.now().strftime(("%Y-%m-%d %H:%M:%S"))
-    },
-    "0004" : {
-        "id" : 4,
-        "plant-id" : 2,
-        "value" : 0.7, # waterlevel
-        "time" : datetime.now().strftime(("%Y-%m-%d %H:%M:%S"))
-    }
-}
-
-# -----------------------------------------
 
 def read_all():
     """
+        Lists all entries in table Plants
+
         Used to list all plants in the main-page
     """
-    pass
+    # query all plants in table Plant
+    plants = Plant.query.order_by(Plant.name).all()
 
-def read_one():
+    # apply the PlantSchema to return it as a json 
+    person_schema = PlantSchema(many=True)
+    data = person_schema.dump(plants)
+
+    return data
+
+
+def read_one(plant_id):
     """
         Used for single-page application to show only 1 plant in the highliter version
     """
-    pass
+    plant = Plant.query.filter(Plant.id == plant_id).one_or_none()
 
-def create_plant():
+    if plant is not None:
+        plant_schema = PlantSchema()
+        data = plant_schema.dump(plant)
+        return data
+    else:
+        abort(404, f"Plant {plant_id} not found.")
+
+def create_plant(plant):
     """
         Create a new plant
 
         1. add new db item
         2. handle it somehow D:
-    """
-    pass
 
-def update():
+        parameters: 
+        1. name
+        2. image_file (file name, optional [empty])
+        3. max_fill_value (optional [empty])
+    """
+    p_name = plant.get("name")
+
+    existing_plants = (Plant.query.filter(Plant.name == p_name).one_or_none())
+
+    if existing_plants is None:
+        schema = PlantSchema()
+        new_plant = schema.load(plant, session=db.session)
+
+        db.session.add(new_plant)
+        db.session.commit()
+
+        data = schema.dump(new_plant)
+
+        return data, 201
+    else:
+        abort(409, f"Plant with name {p_name} already exists.")
+
+
+def update(plant_id, plant):
     """
         Manually update a plant
     """
     pass
 
-def delete():
+def delete(plant_id):
     """
         Delete a plant (whole deletion, as well in the db)
     """
-    pass
+    plant = Plant.query.filter(Plant.id == plant_id).one_or_none()
+
+    if plant is not None:
+        db.session.delete(plant)
+        db.session.commit()
+
+        return make_response(f"Plant with id {plant_id} deleted.", 200)
+    else:
+        abort(404, f"Plant with id {plant_id} not found.")
