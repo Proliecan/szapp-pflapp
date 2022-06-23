@@ -9,6 +9,10 @@ from server import app
 def home():
     return render_template('index.html')
 
+@app.route('/startseite')
+def start():
+    return render_template('startseite.html')
+
 
 # route to imprint
 @app.route('/imprint')
