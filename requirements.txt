@@ -1,0 +1,3 @@
+connexion
+Flask
+Flask_SQLAlchemy
