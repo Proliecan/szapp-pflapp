@@ -133,3 +133,13 @@ h2{
     padding-top: 5%;
     padding-bottom: 5%;
 }
+
+footer {
+    background: #5b5b5b;
+    height: 12vh;
+
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    vertical-align: middle;;
+}
