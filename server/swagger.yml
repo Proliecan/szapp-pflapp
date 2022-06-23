@@ -1,3 +1,5 @@
+# This is the configuration file for the api
+
 swagger: "2.0"
 info:
   description: API configuration file for the Szapp-Pflapp Webapplication.
