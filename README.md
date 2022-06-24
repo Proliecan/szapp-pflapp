@@ -8,7 +8,7 @@ I bims, die readme Owo
 html-Dateien in `./server/templates/`\
 css-Dateien in `./server/static/css/`\
 js-Dateien in `./server/static/js/`\
-bilder unter `./server/static/client/img/`
+bilder unter `./server/static/img/`
 ## Backend
 
 ### installing required packages
