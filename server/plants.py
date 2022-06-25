@@ -1,7 +1,7 @@
 from datetime import datetime
 from flask import make_response, abort
-from server.db_models import Plant, WaterlevelData, PlantSchema
-from server import db, app
+from .db_models import Plant, WaterlevelData, PlantSchema
+from . import db, app
 
 
 def read_all():
@@ -11,11 +11,14 @@ def read_all():
         Used to list all plants in the main-page
     """
     # query all plants in table Plant
-    plants = Plant.query.order_by(Plant.name).all()
+    plants = Plant.query.order_by(Plant.id).all()#.join(WaterlevelData, Plant.id == WaterlevelData.plant_id).all()
 
     # apply the PlantSchema to return it as a json 
-    person_schema = PlantSchema(many=True)
-    data = person_schema.dump(plants)
+    plant_schema = PlantSchema(many=True)
+
+    data = plant_schema.dump(plants)
+
+    print(data)
 
     return data
 

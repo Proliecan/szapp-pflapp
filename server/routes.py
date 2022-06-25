@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for
-from server.db_models import Plant, WaterlevelData
-from server import app
+from .db_models import Plant, WaterlevelData
+from . import app
 
 # -----------------------------------------
 # routes
