@@ -1,4 +1,5 @@
 from datetime import datetime
+from xml.etree.ElementInclude import include
 
 from marshmallow_sqlalchemy import auto_field
 from . import db, ma
@@ -36,6 +37,7 @@ class WaterlevelData(db.Model):
 class WaterlevelSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = WaterlevelData
+        include_fk = True
         load_instance = True
 
 class PlantSchema(ma.SQLAlchemyAutoSchema):

@@ -20,17 +20,17 @@ paths:
         - Plants
       summary: Read the entire list of plants
       description: Read the list of plants
-      parameters:
-        - name: length
-          in: query
-          type: integer
-          description: Number of plants to get from plants
-          required: false
-        - name: offset
-          in: query
-          type: integer
-          description: Offset from beginning of list where to start gathering plants
-          required: false
+      # parameters:
+      #   - name: length
+      #     in: query
+      #     type: integer
+      #     description: Number of plants to get from plants
+      #     required: false
+      #   - name: offset
+      #     in: query
+      #     type: integer
+      #     description: Offset from beginning of list where to start gathering plants
+      #     required: false
       responses:
         200:
           description: Successfully read plants list operation
