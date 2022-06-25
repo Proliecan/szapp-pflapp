@@ -2,3 +2,7 @@ connexion
 Flask
 flask_marshmallow
 Flask_SQLAlchemy
+marshmallow
+marshmallow_sqlalchemy
+matplotlib
+python_dateutil
