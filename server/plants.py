@@ -6,19 +6,18 @@ from . import db, app
 
 def read_all():
     """
-        Lists all entries in table Plants
+    Lists all entries in table Plants. Used to list all plants in the main-page
 
-        Used to list all plants in the main-page
+    Query selects all entries in Table Plant ordered by id ascending
+    
+    data: PlantSchema is defined in module plants.py 
+    It defines the json (?) representation of the Plant object so that AJAX can handle it and send data to the DOM
     """
-    # query all plants in table Plant
+    
     plants = Plant.query.order_by(Plant.id).all()#.join(WaterlevelData, Plant.id == WaterlevelData.plant_id).all()
-
     # apply the PlantSchema to return it as a json 
     plant_schema = PlantSchema(many=True)
-
     data = plant_schema.dump(plants)
-
-    print(data)
 
     return data
 
@@ -66,10 +65,19 @@ def create_plant(plant):
         abort(409, f"Plant with name {p_name} already exists.")
 
 
-def update(plant_id, plant):
+def update(plant_id, updated_plant):
     """
         Manually update a plant
+        Parameters:
+            - plant_id: the plant to edit by its id
+            - updated_plant: the new values of the plant 
     """
+    plant = Plant.query.filter(Plant.id == plant_id).on_or_none()
+
+    if plant is not None:
+        pass # update plant entry in DataBase with new values from updated_plant object
+    else:
+        abort(404, f"Plant /w id {plant_id} could not be found.\nInternal Server Error!")
     pass
 
 def delete(plant_id):
