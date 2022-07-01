@@ -105,15 +105,21 @@ ns.view = (function () {
         build_divs: function (plants) { 
             let divs = ''
 
-            // clear the div
-            $('#plants_container').empty();
-
             // did we get a plants array?
             if (plants) {
                 for (let i = 0, l = plants.length; i < l; i++) {
-                    divs += `<div class="plant">Name: ${plants[i].name}; Creation Date: ${plants[i].creation_date}<img src="../${plants[i].image_file}" alt="Image" loading="lazy">${plants[i].values[0].value}</div>`;
+                    let date = new Date(plants[i].creation_date);
+                    divs += `
+                        <div class="plant">
+                            <ol>
+                                <li>Name: ${plants[i].name}</li>
+                                <li><img src="../${plants[i].image_file}" alt="Image" loading="lazy"></li>
+                                <li>Creation Date: ${date.toLocaleDateString()}</li>
+                                <li>${plants[i].values[0].value}</li>
+                            </ol>
+                        </div>`;
                 }
-                $('#plants_container').append(divs);
+                $('#plants_container').prepend(divs);
             }
         },
         error: function (error_msg) {

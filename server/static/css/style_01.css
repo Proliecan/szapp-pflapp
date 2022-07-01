@@ -71,24 +71,3 @@ h1 {
     line-height: 28pt;
     font-size: 22pt;
 }
-
-#add_plant {
-    background-color: #5b5b5b;
-    height: 100px;
-    width: 100px;
-    border-style: solid;
-    border-color: #62711c;
-    border-radius: 10px;
-    border-radius: 10px;
-}
-
-#add_plant>a {
-    display: block;
-    float: inline-end;
-    position: relative;
-    height: 100%;
-    font-size: 55pt;
-    color: #a9ba5a;
-    text-decoration: none;
-    margin: auto;
-}
