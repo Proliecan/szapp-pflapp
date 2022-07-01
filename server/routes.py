@@ -20,6 +20,11 @@ def start():
 def imprint():
     return render_template('imprint.html')
 
+# route to add a new plant
+@app.route('/add_plant')
+def add_plant():
+    return render_template('add_plant.html')
+
 @app.route('/main_page', methods=['GET'])
 def main_page():
     return render_template('main_page.html')

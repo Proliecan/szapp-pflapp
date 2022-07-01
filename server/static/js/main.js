@@ -111,7 +111,7 @@ ns.view = (function () {
             // did we get a plants array?
             if (plants) {
                 for (let i = 0, l = plants.length; i < l; i++) {
-                    divs += `<div class="plant">Name: ${plants[i].name}; Creation Date: ${plants[i].creation_date}<img src="../${plants[i].image_file}" alt="Image">${plants[i].values[0].value}</div>`;
+                    divs += `<div class="plant">Name: ${plants[i].name}; Creation Date: ${plants[i].creation_date}<img src="../${plants[i].image_file}" alt="Image" loading="lazy">${plants[i].values[0].value}</div>`;
                 }
                 $('#plants_container').append(divs);
             }
