@@ -2,6 +2,7 @@ from datetime import datetime
 from xml.etree.ElementInclude import include
 
 from marshmallow_sqlalchemy import auto_field
+from sqlalchemy import values
 from . import db, ma
 from marshmallow import fields
 
@@ -34,16 +35,84 @@ class WaterlevelData(db.Model):
     def __repr__(self) -> str:
         return f"Value('{self.plant_id}', '{self.value}', '{self.report_time}')"
 
-class WaterlevelSchema(ma.SQLAlchemyAutoSchema):
-    class Meta:
-        model = WaterlevelData
-        include_fk = True
-        load_instance = True
+# class WaterlevelSchema(ma.SQLAlchemyAutoSchema):
+#     class Meta:
+#         model = WaterlevelData
+#         include_fk = True
+#         load_instance = True
+
+#     plant = fields.Nested(PlantValueSchema, default=None)
+
+# class PlantSchema(ma.SQLAlchemyAutoSchema):
+#     class Meta:
+#         model = Plant
+#         load_instance = True
+
+#     values = fields.Nested(WaterlevelSchema, many=True)
+#     # WaterlevelData.last_value = auto_field()
+
+# class PlantValueSchema(ma.ModelSchema):
+#     # class Meta:
+#     #     model = Plant
+#     #     load_instance = True
+
+#     # value = fields.List(WaterlevelSchema, many=True)
+#     def __init__(self, **kwargs):
+#         super().__init__(strict=True, **kwargs)
+
+#     value_id = fields.Int()
+#     plant_id = fields.Int()
+#     value = fields.Str()
+#     timestamp = fields.Str()
+
 
 class PlantSchema(ma.SQLAlchemyAutoSchema):
+    # def __init__(self, **kwargs):
+    #     super().__init__(strict=True, **kwargs)
+
     class Meta:
         model = Plant
-        load_instance = True
+        sqla_session = db.session
 
-    values = fields.Nested(WaterlevelSchema, many=True)
-    # WaterlevelData.last_value = auto_field()
+    values = fields.Nested("PlantValueSchema", default=[], many=True)
+
+
+class PlantValueSchema(ma.SQLAlchemyAutoSchema):
+    """
+    This class exists to get around a recursion issue
+    """
+
+    # def __init__(self, **kwargs):
+    #     super().__init__(strict=True, **kwargs)
+
+    value_id = fields.Int()
+    plant_id = fields.Int()
+    value = fields.Int()
+    report_time = fields.DateTime()
+
+
+class WaterlevelSchema(ma.SQLAlchemyAutoSchema):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    class Meta:
+        model = WaterlevelData
+        sqla_session = db.session
+
+class ValuePlantSchema(ma.SQLAlchemyAutoSchema):
+    """
+    This class exists to get around a recursion issue
+    """
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    plant_id = fields.Int()
+    name = fields.Str()
+    creation_date = fields.DateTime()
+    last_update = fields.DateTime()
+    image_file = fields.Str()
+    min_fill_value = fields.Int()
+    max_fill_value = fields.Int()
+    values = fields.Nested("WaterlevelSchema", many=True)
+    

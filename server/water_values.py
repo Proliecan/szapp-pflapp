@@ -3,17 +3,28 @@ from flask import make_response, abort
 from .db_models import Plant, WaterlevelData, PlantSchema, WaterlevelSchema
 from . import db, app
  
-def read_all(plant_id):
+def read_all():
     """
         Read all values of one plant
     """
-    pass
+    values = WaterlevelData.query.order_by(db.desc(WaterlevelData.report_time)).all()
+
+    values_schema = WaterlevelSchema(many=True, exclude=["plant.values"])
+    data = values_schema.dump(values)
+    return data
  
 def read_last(plant_id):
     """
         Read last value of a plant
     """
-    pass
+    value = WaterlevelData.query.join(Plant, Plant.id == WaterlevelData.plant_id).filter(Plant.id == plant_id).order_by(db.desc(WaterlevelData.report_time)).one_or_none()
+
+    if value is not None:
+        value_schema = WaterlevelSchema()
+        data = value_schema.dump(value)
+        return data
+    else:
+        abort(404, f"Last value for plant {plant_id} not found.")
  
 def delete_all(plant_id):
     """

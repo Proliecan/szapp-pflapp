@@ -1,6 +1,6 @@
 from datetime import datetime
 from flask import make_response, abort
-from .db_models import Plant, WaterlevelData, PlantSchema
+from .db_models import Plant, WaterlevelData, PlantSchema, PlantValueSchema, ValuePlantSchema
 from . import db, app
 
 
@@ -17,7 +17,7 @@ def read_all():
     plants = Plant.query.order_by(Plant.id).all()#.join(WaterlevelData, Plant.id == WaterlevelData.plant_id).all()
     # apply the PlantSchema to return it as a json 
     plant_schema = PlantSchema(many=True)
-    data = plant_schema.dump(plants)
+    data = plant_schema.dump(plants) # vielleciht data wieder weg
 
     return data
 
@@ -26,10 +26,10 @@ def read_one(plant_id):
     """
         Used for single-page application to show only 1 plant in the highliter version
     """
-    plant = Plant.query.filter(Plant.id == plant_id).one_or_none()
+    plant = Plant.query.filter(Plant.id == plant_id).outerjoin(WaterlevelData).one_or_none()
 
     if plant is not None:
-        plant_schema = PlantSchema()
+        plant_schema = ValuePlantSchema(many=False)
         data = plant_schema.dump(plant)
         return data
     else:
