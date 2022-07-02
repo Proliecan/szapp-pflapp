@@ -20,17 +20,6 @@ paths:
         - Plants
       summary: Read the entire list of plants
       description: Read the list of plants
-      # parameters:
-      #   - name: length
-      #     in: query
-      #     type: integer
-      #     description: Number of plants to get from plants
-      #     required: false
-      #   - name: offset
-      #     in: query
-      #     type: integer
-      #     description: Offset from beginning of list where to start gathering plants
-      #     required: false
       responses:
         200:
           description: Successfully read plants list operation
@@ -54,54 +43,96 @@ paths:
                   type: integer
                 values:
                   type: integer
-                
-#     post:
-#       operationId: plants.create
-#       tags:
-#         - plants
-#       summary: Create a plant and add it to the plants list
-#       description: Create a new plant in the plants list
-#       parameters:
-#         - name: plant
-#           in: body
-#           description: plant to create
-#           required: True
-#           schema:
-#             type: object
-#             properties:
-#               name:
-#                 type: string
-#                 description: name of the new plant
-#       responses:
-#         201:
-#           description: Successfully created plant in list
+    # post:
+    #   operationId: server.plants.create_plant
+    #   tags:
+    #     - plants
+    #   summary: Create a plant and add it to the plants list
+    #   description: Create a new plant in the plants list
+    #   parameters:
+    #     - name: plant
+    #       in: body
+    #       description: plant to create
+    #       required: True
+    #       schema:
+    #         type: object
+    #         properties:
+    #           name:
+    #             name:
+    #               type: string
+    #             creation_date:
+    #               type: string
+    #             last_update:
+    #               type: string
+    #             image_file:
+    #               type: string
+    #             min_fill_value:
+    #               type: integer
+    #             max_fill_value:
+    #               type: integer
+    #             values:
+    #               type: integer
+    #   responses:
+    #     201:
+    #       description: Successfully created plant in list
 
-#   /plants/{id}:
-#     get:
-#       operationId: plants.read_one
-#       tags:
-#         - plants
-#       summary: Read one plant from the plants list
-#       description: Read one plant from the plants list
-#       parameters:
-#         - name: id
-#           in: path
-#           description: ID of the plant to get from the list
-#           type: integer
-#           required: True
-#       responses:
-#         200:
-#           description: Successfully read plant from plants list operation
-#           schema:
-#             properties:
-#               name:
-#                 type: string
-#               id:
-#                 type: integer
-#               creation-date:
-#                 type: string
-#               last-update:
-#                 type: string
+  /plant/{plant_id}:
+    get:
+      operationId: server.plants.read_one
+      tags:
+        - plants
+      summary: Read one plant from the plants list
+      description: Read one plant from the plants list
+      parameters:
+        - name: plant_id
+          in: path
+          description: ID of the plant to get from the list
+          type: integer
+          required: True
+      responses:
+        200:
+          description: Successfully read plant from plants list operation
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: TODO
+              plant_id:
+                type: integer
+                description: TODO
+              creation_date:
+                type: string
+                description: TODO
+              last_update:
+                type: string
+                description: TODO
+              image_file:
+                type: string
+                description: TODO
+              min_fill_value:
+                type: integer
+                description: TODO
+              max_fill_value:
+                type: integer
+                description: TODO
+              values:
+                type: array
+                items:
+                  properties:
+                    plant_id: 
+                      type: integer
+                      description: Id of the plant
+                    id: 
+                      type: integer
+                      description: Id of this water value
+                    value:
+                      type: integer
+                      description: Value
+                    report_time:
+                      type: string
+                      description: Report time in UTC
+
 # # TODO: yml plants.update 
 #     put:
 #       operationId: plants.update
@@ -144,3 +175,194 @@ paths:
 #       responses:
 #         200:
 #           description: Successfully deleted a plant from plants list
+  # /waterleveldata:
+  #   get:
+  #     operationId: server.water_values.read_all
+  #     tags:
+  #       - WaterlevelData
+  #     summary: TODO
+  #     description: TODO
+  #     responses:
+  #       200:
+  #         description: Successfully read water values of all plants
+  #         schema:
+  #           type: array
+  #           items:
+  #             properties:
+  #               id:
+  #                 type: integer
+  #                 description: if of this value
+  #               value:
+  #                 type: integer
+  #                 description: value
+  #               timestamp:
+  #                 type: string
+  #                 description: report time
+  #               plant:
+  #                 type: object
+  #                 properties:
+  #                   name:
+  #                     type: string
+  #                   id:
+  #                     type: integer
+  #                   creation_date:
+  #                     type: string
+  #                   last_update:
+  #                     type: string
+  #                   image_file:
+  #                     type: string
+  #                   min_fill_value:
+  #                     type: integer
+  #                   max_fill_value:
+  #                     type: integer
+  #                   values:
+  #                     type: array
+  #                     items:
+  #                       properties:
+  #                         plant_id: 
+  #                           type: integer
+  #                           description: Id of the plant
+  #                         id: 
+  #                           type: integer
+  #                           description: Id of this water value
+  #                         value:
+  #                           type: integer
+  #                           description: Value
+  #                         report_time:
+  #                           type: string
+  #                           description: Report time in UTC
+
+  # /plants/{plant_id}/waterleveldata:
+  #   post:
+  #     operationId: server.water_values.add_new_value
+  #     tags:
+  #       - WaterlevelData
+  #     summary: TODO
+  #     description: TODO
+  #     parameters:
+  #       - name: plant_id
+  #         in: path
+  #         description: Id of the plant
+  #         type: integer
+  #         required: True
+  #         schema:
+  #           type: object
+  #           properties:
+  #             value:
+  #               type: integer
+  #               description: value of newly added
+  #       - name: value
+  #         in: body
+  #         description:
+  #         required: True
+  #         schema:
+  #           type: object
+  #           properties:
+  #             value:
+  #               type: integer
+  #               description: value
+  #     responses:
+  #       201:
+  #         description: Successfully created a new value
+  #         schema:
+  #           properties:
+  #             plant_id:
+  #               type: integer
+  #               description: Id of the associated plant
+  #             id:
+  #               type: integer
+  #               description: Id of new value
+  #             value:
+  #               type: integer
+  #               description: value
+  #             report_time:
+  #               type: string
+  #               description: report time
+  #   get:
+  #     operationId: server.water_values.read_all
+  #     tags:
+  #       - WaterlevelData
+  #     summary: TODO
+  #     description: TODO
+  #     parameters:
+  #       - name: plant_id
+  #         in: path
+  #         description: Id of the plant
+  #         type: integer
+  #         required: True
+  #         schema:
+  #           type: object
+  #           properties:
+  #             value:
+  #               type: integer
+  #               description: value of newly added
+  #     responses:
+  #       200:
+  #         description: Successfully read all values of one plant
+  #         schema:
+  #           type: array
+  #           items:
+  #             properties:
+  #               plant_id:
+  #                 type: integer
+  #                 description:
+  #               id:
+  #                 type: integer
+  #                 description: id of the value
+  #               value:
+  #                 type: integer
+  #                 description: value
+  #               report_time:
+  #                 type: string
+  #                 description: report time
+  #   delete:
+  #     operationId: server.water_values.delete_all
+  #     tags:
+  #       - WaterlevelData
+  #     summary:
+  #     description:
+  #     parameters:
+  #       - name: plant_id
+  #         in: path
+  #         description: 
+  #         type: integer
+  #         required: True
+  #     responses:
+  #       200:
+  #         description: Successdully deleted all water value
+  # /plants/{plant_id}/waterleveldata/{id}:
+  #   get:
+  #     operationId: server.water_values.read_last
+  #     tags:
+  #       - WaterlevelData
+  #     summary: TODO
+  #     description: TODO
+  #     parameters:
+  #       - name: plant_id
+  #         in: path
+  #         description: Id of plant
+  #         type: integer
+  #         required: True
+  #       - name: id
+  #         in: path
+  #         description: Id of value
+  #         type: integer
+  #         required: True
+  #     responses:
+  #       200:
+  #         description: Successfully read value of plant
+  #         schema:
+  #           type: object
+  #           properties:
+  #             id:
+  #               type: integer
+  #               description: Id of value
+  #             plant_id:
+  #               type: integer
+  #               description: Id of associated plant
+  #             value:
+  #               type: integer
+  #               description: Text content of the note
+  #             report_time:
+  #               type: string
+  #               description: report time
