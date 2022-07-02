@@ -199,3 +199,10 @@ footer {
     color: #353535;
     font-size: 55pt;
 }
+
+table {
+    border: 1px solid gray;
+    gap: 1cm;
+    margin-left: auto;
+    margin-right: auto;
+}

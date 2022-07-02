@@ -25,6 +25,11 @@ def imprint():
 def add_plant():
     return render_template('add_plant.html')
 
+# route for details view of a plant
+@app.route('/plant/<int:plant_id>', methods=['GET'])
+def plant_details(plant_id):
+    return render_template('plant.html', plant_id=plant_id)
+
 @app.route('/main_page', methods=['GET'])
 def main_page():
     return render_template('main_page.html')
