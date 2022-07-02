@@ -111,7 +111,7 @@ ns.view = (function () {
                 let table = `<table><tr><th>Report Time</th><th>Value</th></tr>`;
                 for (let i = 0, l = plant.values.length; i < l; i ++) {
                     let date = new Date(plant.values[i].report_time);
-                    table += `<tr><td>${date.toLocaleDateString()}</td><td>${plant.values[i].value}</td>`
+                    table += `<tr><td>${date.toLocaleDateString()} ${date.toLocaleTimeString()}</td><td>${plant.values[i].value}</td>`
                 }
                 table += `</tr></table>`;
                 let div = 
