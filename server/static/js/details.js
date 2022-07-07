@@ -31,25 +31,6 @@ ns.model = (function () {
                     $event_pump.trigger('model_error', [xhr, textStatus, errorThrown]);
                 })
         },
-        create: function (name) {
-            let ajax_options = {
-                type: 'POST',
-                url: 'api/plants',
-                accepts: 'application/json',
-                contentType: 'application/json',
-                dataType: 'json',
-                data: JSON.stringify({
-                    'name': name
-                })
-            };
-            $.ajax(ajax_options)
-                .done(function (data) {
-                    $event_pump.trigger('model_create_success', [data]);
-                })
-                .fail(function (xhr, textStatus, errorThrown) {
-                    $event_pump.trigger('model_error', [xhr, textStatus, errorThrown]);
-                })
-        },
         update: function (fname, lname) {
             let ajax_options = {
                 type: 'PUT',
@@ -126,27 +107,6 @@ ns.view = (function () {
                 $('body').append(div);
             }
         },
-        build_divs: function (plants) { 
-            let divs = ''
-
-            // did we get a plants array?
-            if (plants) {
-                for (let i = 0, l = plants.length; i < l; i++) {
-                    let date = new Date(plants[i].creation_date);
-                    divs += `
-                        <div class="plant">
-                            <ol>
-                                <li>Name: ${plants[i].name}</li>
-                                <li><img src="../${plants[i].image_file}" alt="Image" loading="lazy"></li>
-                                <li>Creation Date: ${date.toLocaleDateString()}</li>
-                                <li>${plants[i].values[0].value}</li>
-                                <li><a href="/plant/${plants[i].id}">DETAILS</a></li>
-                            </ol>
-                        </div>`;
-                }
-                $('#plants_container').prepend(divs);
-            }
-        },
         error: function (error_msg) {
             $('.error')
                 .text(error_msg)
@@ -176,20 +136,6 @@ ns.controller = (function (m, v) {
     function validate(fname, lname) {
         return fname !== "" && lname !== "";
     }
-
-    // Create our event handlers
-    $('#create').click(function (e) {
-        let fname = $fname.val(),
-            lname = $lname.val();
-
-        e.preventDefault();
-
-        if (validate(fname, lname)) {
-            model.create(fname, lname)
-        } else {
-            alert('Problem with first or last name input');
-        }
-    });
 
     $('#update').click(function (e) {
         let fname = $fname.val(),
@@ -241,19 +187,9 @@ ns.controller = (function (m, v) {
     });
 
     // Handle the model events
-    $event_pump.on('model_read_success', function (e, data) {
-        view.build_divs(data);
-        view.reset();
-    });
-
     $event_pump.on('model_read_one_success', function (e, data) {
         view.build_one_div(data);
         view.reset();
-    });
-
-
-    $event_pump.on('model_create_success', function (e, data) {
-        model.read_one();
     });
 
     $event_pump.on('model_update_success', function (e, data) {
