@@ -29,22 +29,6 @@ ns.model = (function () {
                     $event_pump.trigger('model_error', [xhr, textStatus, errorThrown]);
                 })
         },
-        'read_one': function (plant_id) {
-            console.log(plant_id)
-            let ajax_options = {
-                type: 'GET',
-                url: 'api/plant/' + plant_id,
-                accepts: 'application/json',
-                dataType: 'json'
-            };
-            $.ajax(ajax_options)
-                .done(function (data) {
-                    $event_pump.trigger('model_read_one_success', [data]);
-                })
-                .fail(function (xhr, textStatus, errorThrown){
-                    $event_pump.trigger('model_error', [xhr, textStatus, errorThrown]);
-                })
-        },
         create: function (name) {
             let ajax_options = {
                 type: 'POST',
@@ -117,20 +101,6 @@ ns.view = (function () {
         update_editor: function (fname, lname) {
             // $lname.val(lname);
             // $fname.val(fname).focus();
-        },
-        build_one_div: function (plant) {
-            if (plant) {
-                div = 
-                    `<div class="plant">
-                        <ol>
-                            <li>Name: ${plant.name}</li>
-                            <li><img src="../${plant.image_file}" alt="Image" loading="lazy"></li>
-                            <li>Creation Date: ${date.toLocaleDateString()}</li>
-                            <li>${plant.values[0].value}</li>
-                        </ol>
-                    </div>`;
-                $('body').append(div)
-            }
         },
         build_divs: function (plants) { 
             let divs = ''
@@ -251,12 +221,6 @@ ns.controller = (function (m, v) {
         view.build_divs(data);
         view.reset();
     });
-
-    $event_pump.on('model_read_one_success', function (e, data) {
-        view.build_one_div(data);
-        view.reset();
-    });
-
 
     $event_pump.on('model_create_success', function (e, data) {
         model.read();
