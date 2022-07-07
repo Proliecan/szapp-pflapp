@@ -114,15 +114,14 @@ ns.view = (function () {
                         value = '';
                     }
                     divs += `
-                        <div class="plant" id="plant-${i}">
+                        <a href="/plant/${plants[i].id}" class="plant">
                             <ol>
                                 <li>Name: ${plants[i].name}</li>
                                 <li><img src="../${plants[i].image_file}" alt="Image" loading="lazy"></li>
                                 <li>Creation Date: ${date.toLocaleDateString()}</li>
                                 <li>${value}</li>
-                                <li><a href="/plant/${plants[i].id}">DETAILS</a></li>
                             </ol>
-                        </div>`;
+                        </a>`;
                 }
                 $('#plants_container').prepend(divs);
             }
