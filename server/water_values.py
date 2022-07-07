@@ -1,4 +1,4 @@
-from flask import abort
+from flask import abort, make_response
 from .db_models import Plant, WaterlevelData, WaterlevelSchema
 from . import db
 
@@ -35,7 +35,17 @@ def delete_all(plant_id):
     """
         Delete all values of one plant
     """
-    pass
+    values = WaterlevelData.query.join(Plant, Plant.id == WaterlevelData.plant_id).filter(Plant.id == plant_id).all()
+
+    if values is not None:
+        # nicht schön, aber funktioniert
+        for i in values:
+            db.session.delete(i)
+        db.session.commit()
+
+        return make_response(f"Deleted all values for plant-id {plant_id}.", 200)
+    else:
+        abort(409, f"Could not find values for specified plant-id {plant_id}")
 
 
 def add_new_value(water_value):
@@ -43,7 +53,6 @@ def add_new_value(water_value):
         add new value to plant by id
     """
     existing_plants = (Plant.query.filter(Plant.id == water_value.get("plant_id")).one_or_none())
-    print(existing_plants)
 
     if existing_plants is not None:
         schema = WaterlevelSchema()

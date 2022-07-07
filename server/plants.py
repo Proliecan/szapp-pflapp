@@ -1,6 +1,7 @@
 from flask import make_response, abort
 from .db_models import Plant, WaterlevelData, PlantSchema, ValuePlantSchema
 from . import db
+from .water_values import delete_all
 
 
 def read_all():
@@ -59,8 +60,12 @@ def update(plant_id, new_plant):
         Update a plant by its id. 
     """
     old_plant = Plant.query.filter(Plant.id == plant_id).on_or_none()
+    
+    p_name = new_plant.get("name")
 
-    if old_plant is not None:
+    existing_plant = Plant.query.filter(Plant.name == p_name, Plant.id != plant_id).one_or_none()
+
+    if existing_plant is None and old_plant is not None:
         schema = PlantSchema()
         update = schema.load(new_plant, session=db.session)
 
@@ -83,9 +88,11 @@ def delete(plant_id):
     plant = Plant.query.filter(Plant.id == plant_id).one_or_none()
 
     if plant is not None:
+        delete_all(plant_id)
+
         db.session.delete(plant)
         db.session.commit()
 
         return make_response(f"Plant with id {plant_id} deleted.", 200)
     else:
-        abort(404, f"Plant with id {plant_id} not found.")
+        abort(409, f"Plant with id {plant_id} not found.")

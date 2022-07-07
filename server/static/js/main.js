@@ -104,18 +104,22 @@ ns.view = (function () {
         },
         build_divs: function (plants) { 
             let divs = ''
-
-            // did we get a plants array?
             if (plants) {
                 for (let i = 0, l = plants.length; i < l; i++) {
                     let date = new Date(plants[i].creation_date);
+                    let value;
+                    if (typeof plants[i].values[0] !== 'undefined') {
+                        value = plants[i].values[0].value;
+                    } else {
+                        value = '';
+                    }
                     divs += `
-                        <div class="plant">
+                        <div class="plant" id="plant-${i}">
                             <ol>
                                 <li>Name: ${plants[i].name}</li>
                                 <li><img src="../${plants[i].image_file}" alt="Image" loading="lazy"></li>
                                 <li>Creation Date: ${date.toLocaleDateString()}</li>
-                                <li>${plants[i].values[0].value}</li>
+                                <li>${value}</li>
                                 <li><a href="/plant/${plants[i].id}">DETAILS</a></li>
                             </ol>
                         </div>`;
@@ -167,54 +171,9 @@ ns.controller = (function (m, v) {
         }
     });
 
-    $('#update').click(function (e) {
-        let fname = $fname.val(),
-            lname = $lname.val();
-
-        e.preventDefault();
-
-        if (validate(fname, lname)) {
-            model.update(fname, lname)
-        } else {
-            alert('Problem with first or last name input');
-        }
-        e.preventDefault();
-    });
-
-    $('#delete').click(function (e) {
-        let lname = $lname.val();
-
-        e.preventDefault();
-
-        if (validate('placeholder', lname)) {
-            model.delete(lname)
-        } else {
-            alert('Problem with first or last name input');
-        }
-        e.preventDefault();
-    });
-
     $('#reset').click(function () {
         view.reset();
     })
-
-    $('table > tbody').on('dblclick', 'tr', function (e) {
-        let $target = $(e.target),
-            fname,
-            lname;
-
-        fname = $target
-            .parent()
-            .find('td.fname')
-            .text();
-
-        lname = $target
-            .parent()
-            .find('td.lname')
-            .text();
-
-        view.update_editor(fname, lname);
-    });
 
     // Handle the model events
     $event_pump.on('model_read_success', function (e, data) {
@@ -223,14 +182,6 @@ ns.controller = (function (m, v) {
     });
 
     $event_pump.on('model_create_success', function (e, data) {
-        model.read();
-    });
-
-    $event_pump.on('model_update_success', function (e, data) {
-        model.read();
-    });
-
-    $event_pump.on('model_delete_success', function (e, data) {
         model.read();
     });
 
