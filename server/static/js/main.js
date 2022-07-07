@@ -110,15 +110,14 @@ ns.view = (function () {
                 for (let i = 0, l = plants.length; i < l; i++) {
                     let date = new Date(plants[i].creation_date);
                     divs += `
-                        <div class="plant">
+                        <a href="/plant/${plants[i].id}" class="plant">
                             <ol>
                                 <li>Name: ${plants[i].name}</li>
                                 <li><img src="../${plants[i].image_file}" alt="Image" loading="lazy"></li>
                                 <li>Creation Date: ${date.toLocaleDateString()}</li>
                                 <li>${plants[i].values[0].value}</li>
-                                <li><a href="/plant/${plants[i].id}">DETAILS</a></li>
                             </ol>
-                        </div>`;
+                        </a>`;
                 }
                 $('#plants_container').prepend(divs);
             }
