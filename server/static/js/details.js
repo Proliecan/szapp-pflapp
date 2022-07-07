@@ -51,10 +51,10 @@ ns.model = (function () {
                     $event_pump.trigger('model_error', [xhr, textStatus, errorThrown]);
                 })
         },
-        'delete': function (lname) {
+        'delete': function (plant_id) {
             let ajax_options = {
                 type: 'DELETE',
-                url: 'api/people/' + lname,
+                url: '../api/plant/' + plant_id,
                 accepts: 'application/json',
                 contentType: 'plain/text'
             };
@@ -152,39 +152,23 @@ ns.controller = (function (m, v) {
     });
 
     $('#delete').click(function (e) {
-        let lname = $lname.val();
+        // let lname = $plant_id.val();
 
         e.preventDefault();
 
-        if (validate('placeholder', lname)) {
-            model.delete(lname)
-        } else {
-            alert('Problem with first or last name input');
-        }
+        model.delete(parseInt(plant_id.textContent));
+
+        // if (validate('placeholder', lname)) {
+        //     model.delete(lname)
+        // } else {
+        //     alert('Problem with first or last name input');
+        // }
         e.preventDefault();
     });
 
     $('#reset').click(function () {
         view.reset();
     })
-
-    $('table > tbody').on('dblclick', 'tr', function (e) {
-        let $target = $(e.target),
-            fname,
-            lname;
-
-        fname = $target
-            .parent()
-            .find('td.fname')
-            .text();
-
-        lname = $target
-            .parent()
-            .find('td.lname')
-            .text();
-
-        view.update_editor(fname, lname);
-    });
 
     // Handle the model events
     $event_pump.on('model_read_one_success', function (e, data) {
@@ -197,7 +181,7 @@ ns.controller = (function (m, v) {
     });
 
     $event_pump.on('model_delete_success', function (e, data) {
-        model.read_one();
+        window.location = "/main_page";
     });
 
     $event_pump.on('model_error', function (e, xhr, textStatus, errorThrown) {
