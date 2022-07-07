@@ -1,24 +1,21 @@
 from flask import make_response, abort
 from .db_models import Plant, WaterlevelData, PlantSchema, ValuePlantSchema
-from . import db, app
+from . import db
 
 
 def read_all():
     """
-    Lists all entries in table Plants. Used to list all plants in the main-page
-
-    Query selects all entries in Table Plant ordered by id ascending
-    
-    data: PlantSchema is defined in module plants.py 
-    It defines the json (?) representation of the Plant object so that AJAX can handle it and send data to the DOM
+        Returns all plants in one object.
     """
-    
-    plants = Plant.query.order_by(Plant.id).all()#.join(WaterlevelData, Plant.id == WaterlevelData.plant_id).all()
-    # apply the PlantSchema to return it as a json 
-    plant_schema = PlantSchema(many=True)
-    data = plant_schema.dump(plants) # vielleciht data wieder weg
+    plants = Plant.query.order_by(Plant.id).all()
 
-    return data
+    if plants is not None:
+        plant_schema = PlantSchema(many=True)
+        data = plant_schema.dump(plants)
+
+        return data
+    else:
+        abort(404, "No plants found.")
 
 
 def read_one(plant_id):
@@ -34,23 +31,16 @@ def read_one(plant_id):
     else:
         abort(404, f"Plant {plant_id} not found.")
 
+
 def create_plant(plant):
     """
-        Create a new plant
-
-        1. add new db item
-        2. handle it somehow D:
-
-        parameters: 
-        1. name
-        2. image_file (file name, optional [empty])
-        3. max_fill_value (optional [empty])
+        Create a new plant. Unique identifier is its id and name.
     """
     p_name = plant.get("name")
 
-    existing_plants = (Plant.query.filter(Plant.name == p_name).one_or_none())
+    existing_plant = Plant.query.filter(Plant.name == p_name).one_or_none()
 
-    if existing_plants is None:
+    if existing_plant is None:
         schema = PlantSchema()
         new_plant = schema.load(plant, session=db.session)
 
@@ -64,20 +54,27 @@ def create_plant(plant):
         abort(409, f"Plant with name {p_name} already exists.")
 
 
-def update(plant_id, updated_plant):
+def update(plant_id, new_plant):
     """
-        Manually update a plant
-        Parameters:
-            - plant_id: the plant to edit by its id
-            - updated_plant: the new values of the plant 
+        Update a plant by its id. 
     """
-    plant = Plant.query.filter(Plant.id == plant_id).on_or_none()
+    old_plant = Plant.query.filter(Plant.id == plant_id).on_or_none()
 
-    if plant is not None:
-        pass # TODO: update plant entry in DataBase with new values from updated_plant object
+    if old_plant is not None:
+        schema = PlantSchema()
+        update = schema.load(new_plant, session=db.session)
+
+        update.plant_id = old_plant.plant_id
+
+        db.session.merge(update)
+        db.session.commit()
+
+        data = schema.dump()
+
+        return data, 200
     else:
-        abort(404, f"Plant /w id {plant_id} could not be found.\nInternal Server Error!")
-    pass
+        abort(404, f"Plant with id {plant_id} could not be found.\nInternal Server Error!")
+
 
 def delete(plant_id):
     """
