@@ -1,7 +1,6 @@
-from datetime import datetime
-from flask import make_response, abort
-from .db_models import Plant, WaterlevelData, PlantSchema, WaterlevelSchema
-from . import db, app
+from flask import abort
+from .db_models import Plant, WaterlevelData, WaterlevelSchema
+from . import db
  
 def read_all():
     """
@@ -32,24 +31,16 @@ def delete_all(plant_id):
     """
     pass
  
-def add_new_value(plant_id, new_value):
+def add_new_value(water_value):
     """
-        Create a new plant
-
-        1. add new db item
-        2. handle it somehow D:
-
-        parameters: 
-        1. name
-        2. image_file (file name, optional [empty])
-        3. max_fill_value (optional [empty])
+        add new value to plant by id
     """
-    existing_plants = (Plant.query.filter(Plant.id == plant_id).one_or_none())
+    existing_plants = (Plant.query.filter(Plant.id == water_value.get("plant_id")).one_or_none())
     print(existing_plants)
 
     if existing_plants is not None:
         schema = WaterlevelSchema()
-        new_value = schema.load(new_value, session=db.session)
+        new_value = schema.load(water_value, session=db.session)
 
         db.session.add(new_value)
         db.session.commit()
@@ -58,4 +49,4 @@ def add_new_value(plant_id, new_value):
 
         return data, 201
     else:
-        abort(409, f"Plant with id {plant_id} does not exist.")
+        abort(409, f"Plant with id {water_value.get('plant_id')} does not exist.")

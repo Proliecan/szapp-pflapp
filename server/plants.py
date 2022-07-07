@@ -1,6 +1,5 @@
-from datetime import datetime
 from flask import make_response, abort
-from .db_models import Plant, WaterlevelData, PlantSchema, PlantValueSchema, ValuePlantSchema
+from .db_models import Plant, WaterlevelData, PlantSchema, ValuePlantSchema
 from . import db, app
 
 
@@ -75,7 +74,7 @@ def update(plant_id, updated_plant):
     plant = Plant.query.filter(Plant.id == plant_id).on_or_none()
 
     if plant is not None:
-        pass # update plant entry in DataBase with new values from updated_plant object
+        pass # TODO: update plant entry in DataBase with new values from updated_plant object
     else:
         abort(404, f"Plant /w id {plant_id} could not be found.\nInternal Server Error!")
     pass
