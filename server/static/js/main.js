@@ -108,13 +108,18 @@ ns.view = (function () {
                 for (let i = 0, l = plants.length; i < l; i++) {
                     let date = new Date(plants[i].creation_date);
                     let value;
+                    let dryWaterLevel = (plants[i].max_fill_value - plants[i].min_fill_value) * 0.3;
+                    let additionalClass = '';
+                    if (plants[i].values[0].value <= dryWaterLevel) {
+                        additionalClass = ' dry'
+                    }
                     if (typeof plants[i].values[0] !== 'undefined') {
                         value = plants[i].values[0].value;
                     } else {
                         value = '';
                     }
                     divs += `
-                        <a href="/plant/${plants[i].id}" class="plant">
+                        <a href="/plant/${plants[i].id}" class="plant${additionalClass} ">
                             <ol>
                                 <li>Name: ${plants[i].name}</li>
                                 <li><img src="../${plants[i].image_file}" alt="Image" loading="lazy"></li>
