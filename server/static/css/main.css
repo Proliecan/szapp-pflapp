@@ -2,13 +2,13 @@
 
     border: 1px solid red;
 } */
-:root {
-    --green: #a9ba5a;
-    --white: #FFFFFF;
-    --dark:#353535;
-    --grey:#5b5b5b;
-    --orange:#d79544;
-}
+ :root {
+     --green: #a9ba5a;
+     --white: #FFFFFF;
+     --dark: #353535;
+     --grey: #5b5b5b;
+     --orange: #d79544;
+ }
 
  .hidden {
      visibility: hidden;
@@ -65,6 +65,20 @@
      background-color: #62711c;
  }
 
+ btn:focus {
+     box-shadow: #c2d666 0 0 0 1.5px inset, #62711c 0 2px 4px, #62711c 0 7px 13px -3px, #c2d666 0 -3px 0 inset;
+ }
+
+ .btn:hover {
+     box-shadow: #62711c 0 4px 8px, #62711c 0 7px 13px -3px, #c2d666 0 -3px 0 inset;
+     transform: translateY(-2px);
+ }
+
+ .btn:active {
+     box-shadow: #c2d666 0 3px 7px inset;
+     transform: translateY(2px);
+ }
+
  /* DETAILS */
  .details {
      background: #5b5b5b;
@@ -98,9 +112,9 @@
      /* grid-template-columns: repeat(3, 1fr); */
  }
 
-.dry {
-    background-color: var(--orange)!important;
-}
+ .dry {
+     background-color: var(--orange) !important;
+ }
 
  .plant {
      background-color: var(--green);
@@ -156,8 +170,8 @@
  }
 
  .dry.plant:hover {
-    box-shadow:#71261c 0 4px 8px, #865315 0 7px 13px -3px, #ca6c14 0 -3px 0 inset;
-    transform: translateY(-2px) !important;
+     box-shadow: #71261c 0 4px 8px, #865315 0 7px 13px -3px, #ca6c14 0 -3px 0 inset;
+     transform: translateY(-2px) !important;
  }
 
  #add_plant {
