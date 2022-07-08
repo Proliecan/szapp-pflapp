@@ -43,39 +43,37 @@ paths:
                   type: integer
                 values:
                   type: integer
-    # post:
-    #   operationId: server.plants.create_plant
-    #   tags:
-    #     - plants
-    #   summary: Create a plant and add it to the plants list
-    #   description: Create a new plant in the plants list
-    #   parameters:
-    #     - name: plant
-    #       in: body
-    #       description: plant to create
-    #       required: True
-    #       schema:
-    #         type: object
-    #         properties:
-    #           name:
-    #             name:
-    #               type: string
-    #             creation_date:
-    #               type: string
-    #             last_update:
-    #               type: string
-    #             image_file:
-    #               type: string
-    #             min_fill_value:
-    #               type: integer
-    #             max_fill_value:
-    #               type: integer
-    #             values:
-    #               type: integer
-    #   responses:
-    #     201:
-    #       description: Successfully created plant in list
-
+    post:
+      operationId: server.plants.create_plant
+      tags:
+        - plants
+      summary: Create a plant and add it to the plants list
+      description: Create a new plant in the plants list
+      parameters:
+        - name: plant
+          in: body
+          description: plant to create
+          required: True
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+              id:
+                type: integer
+              creation_date:
+                type: string
+              last_update:
+                type: string
+              image_file:
+                type: string
+              min_fill_value:
+                type: integer
+              max_fill_value:
+                type: integer
+      responses:
+        201:
+          description: Successfully created plant in list
   /plant/{plant_id}:
     get:
       operationId: server.plants.read_one
@@ -132,237 +130,55 @@ paths:
                     report_time:
                       type: string
                       description: Report time in UTC
-
-# # TODO: yml plants.update 
-#     put:
-#       operationId: plants.update
-#       tags:
-#         - plants
-#       summary: Update a plant in the plants list
-#       description: Update a plant in the plants list
-#       parameters:
-#         - name: id
-#           in: path
-#         - name: lname
-#           in: path
-#           description: Last name of the plant to update in the list
-#           type: string
-#           required: True
-#         - name: plant
-#           in: body
-#           schema:
-#             type: object
-#             properties:
-#               fname:
-#                 type: string
-#               lname:
-#                 type: string
-#       responses:
-#         200:
-#           description: Successfully updated plant in plants list
-
-#     delete:
-#       operationId: plants.delete
-#       tags:
-#         - plants
-#       summary: Delete a plant from the plants list
-#       description: Delete a plant
-#       parameters:
-#         - name: id
-#           in: path
-#           type: id
-#           required: True
-#       responses:
-#         200:
-#           description: Successfully deleted a plant from plants list
-  # /waterleveldata:
-  #   get:
-  #     operationId: server.water_values.read_all
-  #     tags:
-  #       - WaterlevelData
-  #     summary: TODO
-  #     description: TODO
-  #     responses:
-  #       200:
-  #         description: Successfully read water values of all plants
-  #         schema:
-  #           type: array
-  #           items:
-  #             properties:
-  #               id:
-  #                 type: integer
-  #                 description: if of this value
-  #               value:
-  #                 type: integer
-  #                 description: value
-  #               timestamp:
-  #                 type: string
-  #                 description: report time
-  #               plant:
-  #                 type: object
-  #                 properties:
-  #                   name:
-  #                     type: string
-  #                   id:
-  #                     type: integer
-  #                   creation_date:
-  #                     type: string
-  #                   last_update:
-  #                     type: string
-  #                   image_file:
-  #                     type: string
-  #                   min_fill_value:
-  #                     type: integer
-  #                   max_fill_value:
-  #                     type: integer
-  #                   values:
-  #                     type: array
-  #                     items:
-  #                       properties:
-  #                         plant_id: 
-  #                           type: integer
-  #                           description: Id of the plant
-  #                         id: 
-  #                           type: integer
-  #                           description: Id of this water value
-  #                         value:
-  #                           type: integer
-  #                           description: Value
-  #                         report_time:
-  #                           type: string
-  #                           description: Report time in UTC
-
-  # /plants/{plant_id}/waterleveldata:
-  #   post:
-  #     operationId: server.water_values.add_new_value
-  #     tags:
-  #       - WaterlevelData
-  #     summary: TODO
-  #     description: TODO
-  #     parameters:
-  #       - name: plant_id
-  #         in: path
-  #         description: Id of the plant
-  #         type: integer
-  #         required: True
-  #         schema:
-  #           type: object
-  #           properties:
-  #             value:
-  #               type: integer
-  #               description: value of newly added
-  #       - name: value
-  #         in: body
-  #         description:
-  #         required: True
-  #         schema:
-  #           type: object
-  #           properties:
-  #             value:
-  #               type: integer
-  #               description: value
-  #     responses:
-  #       201:
-  #         description: Successfully created a new value
-  #         schema:
-  #           properties:
-  #             plant_id:
-  #               type: integer
-  #               description: Id of the associated plant
-  #             id:
-  #               type: integer
-  #               description: Id of new value
-  #             value:
-  #               type: integer
-  #               description: value
-  #             report_time:
-  #               type: string
-  #               description: report time
-  #   get:
-  #     operationId: server.water_values.read_all
-  #     tags:
-  #       - WaterlevelData
-  #     summary: TODO
-  #     description: TODO
-  #     parameters:
-  #       - name: plant_id
-  #         in: path
-  #         description: Id of the plant
-  #         type: integer
-  #         required: True
-  #         schema:
-  #           type: object
-  #           properties:
-  #             value:
-  #               type: integer
-  #               description: value of newly added
-  #     responses:
-  #       200:
-  #         description: Successfully read all values of one plant
-  #         schema:
-  #           type: array
-  #           items:
-  #             properties:
-  #               plant_id:
-  #                 type: integer
-  #                 description:
-  #               id:
-  #                 type: integer
-  #                 description: id of the value
-  #               value:
-  #                 type: integer
-  #                 description: value
-  #               report_time:
-  #                 type: string
-  #                 description: report time
-  #   delete:
-  #     operationId: server.water_values.delete_all
-  #     tags:
-  #       - WaterlevelData
-  #     summary:
-  #     description:
-  #     parameters:
-  #       - name: plant_id
-  #         in: path
-  #         description: 
-  #         type: integer
-  #         required: True
-  #     responses:
-  #       200:
-  #         description: Successdully deleted all water value
-  # /plants/{plant_id}/waterleveldata/{id}:
-  #   get:
-  #     operationId: server.water_values.read_last
-  #     tags:
-  #       - WaterlevelData
-  #     summary: TODO
-  #     description: TODO
-  #     parameters:
-  #       - name: plant_id
-  #         in: path
-  #         description: Id of plant
-  #         type: integer
-  #         required: True
-  #       - name: id
-  #         in: path
-  #         description: Id of value
-  #         type: integer
-  #         required: True
-  #     responses:
-  #       200:
-  #         description: Successfully read value of plant
-  #         schema:
-  #           type: object
-  #           properties:
-  #             id:
-  #               type: integer
-  #               description: Id of value
-  #             plant_id:
-  #               type: integer
-  #               description: Id of associated plant
-  #             value:
-  #               type: integer
-  #               description: Text content of the note
-  #             report_time:
-  #               type: string
-  #               description: report time
+    delete:
+      operationId: server.plants.delete
+      tags:
+        - plants
+        - waterlevel_values
+      summary: Delete the selected plant
+      description: call for deleting selected plant and its values
+      parameters:
+        - name: plant_id
+          in: path
+          description: Id of plant to delete
+          type: integer
+          required: True
+      responses:
+        200:
+          description: Succesfully deleted plant and its values
+        409:
+          description: Could not delete plant
+    put:
+      operationId: server.plants.update
+      tags:
+        - plants
+      summary: Update a plant in the plants list
+      description: Update a plant in the plants list
+      parameters:
+        - name: plant_id
+          in: path
+          type: integer
+          description: Id of plant
+          required: True
+        - name: plant
+          in: body
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+              id:
+                type: integer
+              creation_date:
+                type: string
+              last_update:
+                type: string
+              image_file:
+                type: string
+              min_fill_value:
+                type: integer
+              max_fill_value:
+                type: integer
+      responses:
+        200:
+          description: Successfully updated plant in plants list

@@ -73,6 +73,8 @@
      min-width: 20rem;
      max-width: fit-content;
      max-height: fit-content;
+     text-decoration: none;
+     opacity: 100%;
  }
 
  .plant>ol {
@@ -102,15 +104,25 @@
      color: #007acc;
  }
 
+ .plant:focus {
+     box-shadow: #c2d666 0 0 0 1.5px inset, #62711c 0 2px 4px, #62711c 0 7px 13px -3px, #c2d666 0 -3px 0 inset;
+ }
+
+ .plant:hover {
+     box-shadow: #62711c 0 4px 8px, #62711c 0 7px 13px -3px, #c2d666 0 -3px 0 inset;
+     transform: translateY(-2px);
+ }
+
+ .plant:active {
+     box-shadow: #c2d666 0 3px 7px inset;
+     transform: translateY(2px);
+ }
+
  #add_plant {
      display: flex;
      align-items: center;
      float: inline-end;
      justify-content: center;
- }
-
- #add_plant>a {
-     text-decoration: none;
      color: #353535;
      font-size: 55pt;
  }
@@ -137,7 +149,7 @@
  /* ======= */
  /* IMPRINT */
  /* ======= */
- #imprint *{
+ #imprint * {
      text-align: left;
      font-size: x-large;
  }
