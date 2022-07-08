@@ -121,7 +121,7 @@ ns.view = (function () {
                     divs += `
                         <a href="/plant/${plants[i].id}" class="plant${additionalClass} ">
                             <ol>
-                                <li>Name: ${plants[i].name}</li>
+                                <li>${plants[i].name}</li>
                                 <li><img src="../${plants[i].image_file}" alt="Image" loading="lazy"></li>
                                 <li>Creation Date: ${date.toLocaleDateString()}</li>
                                 <li>${water_value}</li>
