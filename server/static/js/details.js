@@ -89,20 +89,22 @@ ns.view = (function () {
             if (plant) {
                 console.log(plant);
                 let date = new Date(plant.creation_date);
-                let table = `<table><tr><th>Report Time</th><th>Value</th></tr>`;
-                for (let i = 0, l = plant.values.length; i < l; i ++) {
-                    let date = new Date(plant.values[i].report_time);
-                    table += `<tr><td>${date.toLocaleDateString()} ${date.toLocaleTimeString()}</td><td>${plant.values[i].value}</td>`
-                }
-                table += `</tr></table>`;
+                // let table = `<table id="table"><tr><th>Report Time</th><th>Value</th></tr>`;
+                // for (let i = 0, l = plant.values.length; i < l; i ++) {
+                //     let date = new Date(plant.values[i].report_time);
+                //     table += `<tr><td>${date.toLocaleDateString()} ${date.toLocaleTimeString()}</td><td>${plant.values[i].value}</td>`
+                // }
+                // table += `</tr></table>`;
                 let div = 
-                `<div class="plant">
-                    <ol>
-                        <li>Name: ${plant.name}</li>
-                        <li><img src="../${plant.image_file}" alt="Image" loading="lazy"></li>
-                        <li>Creation Date: ${date.toLocaleDateString()}</li>
-                        <li id="table">${table}</li>
-                    </ol>
+                `<div class="details">
+                    <div>
+                        <h2>${plant.name}</h2>
+                        <img src="../${plant.image_file}" alt="Image" loading="lazy">
+                        <div id="creation">You kept ${plant.name} alive since ${date.toLocaleDateString()}!</div>`
+                // div +=
+                // `       ${table}`
+                div +=
+                `       </div>
                 </div>`;
                 $('body').append(div);
             }
