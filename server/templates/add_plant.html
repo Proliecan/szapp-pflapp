@@ -5,13 +5,41 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="../static/css/style_01.css">
+        <link rel="stylesheet" href="../static/css/main.css">
         <title>Szapp Pflapp</title>
         <link rel="icon" type="image/x-icon" href="../static/img/001-botanic.svg">
+        <script type="application/x-javascript" src="http://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous">
+    </script>
     </head>
 
     <body>
-
+        <h1>Create new Plant</h1>
+        <form>
+            <label for="p_name">Plant Name:</label>
+            <input type="text" name="p_name" id="p_name" placeholder="Plant Name">
+            <br>
+            <label for="p_min_fill_value">Minimum fill value (cm):</label>
+            <input type="range" name="p_min_fill_value" id="p_min_fill_value" min="0" max="10" value="0"
+                oninput="this.nextElementSibling.value = this.value">
+            <output>0</output>
+            <br>
+            <label for="p_max_fill_value">Maximum fill value (cm):</label>
+            <input type="range" name="p_max_fill_value" id="p_max_fill_value" min="5" max="15" value="10"
+                oninput="this.nextElementSibling.value = this.value">
+            <output>10</output>
+            <br>
+            <label for="p_img_file">Image:</label>
+            <select name="p_img_file" id="p_img_file">
+                <option value="static/img/001-botanic.svg" selected>001-botanic.svg</option>
+                <option value="static/img/002-botanic.svg">002-botanic.svg</option>
+            </select>
+            <br>
+            <input type="reset" name="reset" value="Reset values">
+            <button id="create">Create Plant</button>
+        </form>
+        <footer><a href="/main_page">Back to main</a> </footer>
     </body>
     <script type="application/x-javascript" src="../static/js/create.js"></script>
+
 </html>

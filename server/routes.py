@@ -1,3 +1,4 @@
+from crypt import methods
 from flask import render_template, redirect, url_for
 from .db_models import Plant, WaterlevelData
 from . import app
@@ -21,7 +22,7 @@ def imprint():
     return render_template('imprint.html')
 
 # route to add a new plant
-@app.route('/add_plant')
+@app.route('/add_plant', methods=['GET'])
 def add_plant():
     return render_template('add_plant.html')
 
@@ -30,6 +31,6 @@ def add_plant():
 def plant_details(plant_id):
     return render_template('plant.html', plant_id=plant_id)
 
-@app.route('/main_page', methods=['GET'])
+@app.route('/main_page', methods=['GET', 'POST'])
 def main_page():
     return render_template('main_page.html')

@@ -59,12 +59,6 @@ paths:
             properties:
               name:
                 type: string
-              id:
-                type: integer
-              creation_date:
-                type: string
-              last_update:
-                type: string
               image_file:
                 type: string
               min_fill_value:
