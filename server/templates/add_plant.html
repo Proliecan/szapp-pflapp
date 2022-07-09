@@ -13,7 +13,7 @@
     </script>
     </head>
 
-    <body>
+    <body style = "display: flex; flex-direction: column; align-items: center;">
         <h1>Create new Plant</h1>
         <form>
             <label for="p_name">Plant Name:</label>
@@ -30,15 +30,15 @@
             <output>10</output>
             <br>
             <label for="p_img_file">Image:</label>
-            <select name="p_img_file" id="p_img_file">
+            <select class="btn" name="p_img_file" id="p_img_file" style="font-size: large;">
                 <option value="static/img/001-botanic.svg" selected>001-botanic.svg</option>
                 <option value="static/img/002-botanic.svg">002-botanic.svg</option>
             </select>
             <br>
-            <input type="reset" name="reset" value="Reset values">
-            <button id="create">Create Plant</button>
+            <input class="btn" id="delete" type="reset" name="reset" value="Reset values" style="font-size: large;">
+            <button class="btn" id="create" style="font-size: large;">Create Plant</button>
         </form>
-        <footer><a href="/main_page">Back to main</a> </footer>
+        
     </body>
     <script type="application/x-javascript" src="../static/js/create.js"></script>
 

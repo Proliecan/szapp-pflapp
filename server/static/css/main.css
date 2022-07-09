@@ -1,7 +1,6 @@
- /* * {
-
-    border: 1px solid red;
-} */
+/* * {
+    border: 1px solid red; 
+}  */
  :root {
      --green: #a9ba5a;
      --white: #FFFFFF;
@@ -54,6 +53,14 @@
      color: var(--white);
 
      opacity: 0.7;
+ }
+
+ form * {
+    font-size: large;
+ }
+
+ form *[type="text"] {
+    background-color: var(--grey);
  }
 
  /* BUTTON */
