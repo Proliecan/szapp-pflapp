@@ -11,6 +11,82 @@
         <script type="application/x-javascript" src="http://code.jquery.com/jquery-3.3.1.min.js"
             integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous">
     </script>
+
+    <link rel="stylesheet" type="text/css" href="../static/js/img_select/css/lib/control/iconselect.css">
+    <script type="text/javascript" src="../static/js/img_select/lib/control/iconselect.js"></script>
+    <script type="text/javascript" src="../static/js/img_select/lib/iscroll.js"></script>
+
+    <script>
+            
+        var iconSelect;
+        var selectedText;
+
+        window.onload = function(){
+            
+            selectedText = document.getElementById('p_img_file');
+            
+            document.getElementById('my-icon-select').addEventListener('changed', function(e){
+               selectedText.value = iconSelect.getSelectedValue();
+            });
+            
+            iconSelect = new IconSelect("my-icon-select");
+
+            var icons = [];
+            icons.push({'iconFilePath':'../static/img/001-botanic.svg', 'iconValue':'../static/img/001-botanic.svg'});
+            icons.push({'iconFilePath':'../static/img/002-botanic.svg', 'iconValue':'../static/img/002-botanic.svg'});
+            icons.push({'iconFilePath':'../static/img/003-botanic.svg', 'iconValue':'../static/img/003-botanic.svg'});
+            icons.push({'iconFilePath':'../static/img/004-botanic.svg', 'iconValue':'../static/img/004-botanic.svg'});
+            icons.push({'iconFilePath':'../static/img/005-botanic.svg', 'iconValue':'../static/img/005-botanic.svg'});
+            icons.push({'iconFilePath':'../static/img/006-botanic.svg', 'iconValue':'../static/img/006-botanic.svg'});
+            icons.push({'iconFilePath':'../static/img/007-botanic.svg', 'iconValue':'../static/img/007-botanic.svg'});
+            icons.push({'iconFilePath':'../static/img/008-botanic.svg', 'iconValue':'../static/img/008-botanic.svg'});
+            icons.push({'iconFilePath':'../static/img/009-botanic.svg', 'iconValue':'../static/img/009-botanic.svg'});
+            icons.push({'iconFilePath':'../static/img/010-botanic.svg', 'iconValue':'../static/img/010-botanic.svg'});
+            icons.push({'iconFilePath':'../static/img/011-botanic.svg', 'iconValue':'../static/img/011-botanic.svg'});
+            icons.push({'iconFilePath':'../static/img/012-botanic.svg', 'iconValue':'../static/img/012-botanic.svg'});
+            icons.push({'iconFilePath':'../static/img/013-botanic.svg', 'iconValue':'../static/img/013-botanic.svg'});
+            icons.push({'iconFilePath':'../static/img/014-botanic.svg', 'iconValue':'../static/img/014-botanic.svg'});
+            icons.push({'iconFilePath':'../static/img/015-botanic.svg', 'iconValue':'../static/img/015-botanic.svg'});
+            icons.push({'iconFilePath':'../static/img/016-botanic.svg', 'iconValue':'../static/img/016-botanic.svg'});
+            icons.push({'iconFilePath':'../static/img/017-botanic.svg', 'iconValue':'../static/img/017-botanic.svg'});
+            icons.push({'iconFilePath':'../static/img/018-botanic.svg', 'iconValue':'../static/img/018-botanic.svg'});
+            icons.push({'iconFilePath':'../static/img/019-botanic.svg', 'iconValue':'../static/img/019-botanic.svg'});
+            icons.push({'iconFilePath':'../static/img/020-botanic.svg', 'iconValue':'../static/img/020-botanic.svg'});
+            icons.push({'iconFilePath':'../static/img/021-botanic.svg', 'iconValue':'../static/img/021-botanic.svg'});
+            icons.push({'iconFilePath':'../static/img/022-botanic.svg', 'iconValue':'../static/img/022-botanic.svg'});
+            icons.push({'iconFilePath':'../static/img/023-botanic.svg', 'iconValue':'../static/img/023-botanic.svg'});
+            icons.push({'iconFilePath':'../static/img/024-botanic.svg', 'iconValue':'../static/img/024-botanic.svg'});
+            icons.push({'iconFilePath':'../static/img/025-botanic.svg', 'iconValue':'../static/img/025-botanic.svg'});
+            icons.push({'iconFilePath':'../static/img/026-botanic.svg', 'iconValue':'../static/img/026-botanic.svg'});
+            icons.push({'iconFilePath':'../static/img/027-botanic.svg', 'iconValue':'../static/img/027-botanic.svg'});
+            icons.push({'iconFilePath':'../static/img/028-botanic.svg', 'iconValue':'../static/img/028-botanic.svg'});
+            icons.push({'iconFilePath':'../static/img/029-botanic.svg', 'iconValue':'../static/img/029-botanic.svg'});
+            icons.push({'iconFilePath':'../static/img/030-botanic.svg', 'iconValue':'../static/img/030-botanic.svg'});
+            icons.push({'iconFilePath':'../static/img/031-botanic.svg', 'iconValue':'../static/img/031-botanic.svg'});
+            icons.push({'iconFilePath':'../static/img/032-botanic.svg', 'iconValue':'../static/img/032-botanic.svg'});
+            icons.push({'iconFilePath':'../static/img/033-botanic.svg', 'iconValue':'../static/img/033-botanic.svg'});
+            icons.push({'iconFilePath':'../static/img/034-botanic.svg', 'iconValue':'../static/img/034-botanic.svg'});
+            icons.push({'iconFilePath':'../static/img/035-botanic.svg', 'iconValue':'../static/img/035-botanic.svg'});
+            icons.push({'iconFilePath':'../static/img/036-botanic.svg', 'iconValue':'../static/img/036-botanic.svg'});
+            icons.push({'iconFilePath':'../static/img/037-botanic.svg', 'iconValue':'../static/img/037-botanic.svg'});
+            icons.push({'iconFilePath':'../static/img/038-botanic.svg', 'iconValue':'../static/img/038-botanic.svg'});
+            icons.push({'iconFilePath':'../static/img/039-botanic.svg', 'iconValue':'../static/img/039-botanic.svg'});
+            icons.push({'iconFilePath':'../static/img/040-botanic.svg', 'iconValue':'../static/img/040-botanic.svg'});
+            icons.push({'iconFilePath':'../static/img/041-botanic.svg', 'iconValue':'../static/img/041-botanic.svg'});
+            icons.push({'iconFilePath':'../static/img/042-botanic.svg', 'iconValue':'../static/img/042-botanic.svg'});
+            icons.push({'iconFilePath':'../static/img/043-botanic.svg', 'iconValue':'../static/img/043-botanic.svg'});
+            icons.push({'iconFilePath':'../static/img/044-botanic.svg', 'iconValue':'../static/img/044-botanic.svg'});
+            icons.push({'iconFilePath':'../static/img/045-botanic.svg', 'iconValue':'../static/img/045-botanic.svg'});
+            icons.push({'iconFilePath':'../static/img/046-botanic.svg', 'iconValue':'../static/img/046-botanic.svg'});
+            icons.push({'iconFilePath':'../static/img/047-botanic.svg', 'iconValue':'../static/img/047-botanic.svg'});
+            icons.push({'iconFilePath':'../static/img/048-botanic.svg', 'iconValue':'../static/img/048-botanic.svg'});
+            icons.push({'iconFilePath':'../static/img/049-botanic.svg', 'iconValue':'../static/img/049-botanic.svg'});
+            icons.push({'iconFilePath':'../static/img/050-botanic.svg', 'iconValue':'../static/img/050-botanic.svg'});
+            iconSelect.refresh(icons);
+        };
+            
+        </script>
+
     </head>
 
     <body style = "display: flex; flex-direction: column; align-items: center;">
@@ -29,11 +105,9 @@
                 oninput="this.nextElementSibling.value = this.value">
             <output>10</output>
             <br>
-            <label for="p_img_file">Image:</label>
-            <select class="btn" name="p_img_file" id="p_img_file" style="font-size: large;">
-                <option value="static/img/001-botanic.svg" selected>001-botanic.svg</option>
-                <option value="static/img/002-botanic.svg">002-botanic.svg</option>
-            </select>
+            <label for="p_img_file" class="hidden">Image:</label>
+            <input type="text" id="p_img_file" name="p_img_filet" class="hidden">
+            <div id="my-icon-select" name="my-icon-select"></div>
             <br>
             <input class="btn" id="delete" type="reset" name="reset" value="Reset values" style="font-size: large;">
             <button class="btn" id="create" style="font-size: large;">Create Plant</button>
