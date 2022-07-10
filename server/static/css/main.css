@@ -109,6 +109,29 @@ btn:focus#delete {
     transform: translateY(2px);
 }
 
+/* EDIT-BUTTON */
+.btn#update {
+    font-size: x-large;
+    max-width: fit-content;
+    max-height: fit-content;
+    padding: 1rem;
+    background-color: #204590;
+}
+
+btn:focus#update {
+    box-shadow: #45aad8 0 0 0 1.5px inset, #204590 0 2px 4px, #204590 0 7px 13px -3px, #45aad8 0 -3px 0 inset;
+}
+
+.btn:hover#update {
+    box-shadow: #204590 0 4px 8px, #204590 0 7px 13px -3px, #45aad8 0 -3px 0 inset;
+    transform: translateY(-2px);
+}
+
+.btn:active#update {
+    box-shadow: #45aad8 0 3px 7px inset;
+    transform: translateY(2px);
+}
+
 /* DETAILS */
 .details {
     background: #5b5b5b;

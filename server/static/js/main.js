@@ -157,8 +157,8 @@ ns.controller = (function (m, v) {
     }, 100)
 
     // Validate input
-    function validate(fname, lname) {
-        return fname !== "" && lname !== "";
+    function validate(name) {
+        return name !== "";
     }
 
     // Create our event handlers

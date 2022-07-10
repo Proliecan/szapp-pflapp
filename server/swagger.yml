@@ -154,7 +154,7 @@ paths:
           type: integer
           description: Id of plant
           required: True
-        - name: plant
+        - name: new_plant
           in: body
           schema:
             type: object

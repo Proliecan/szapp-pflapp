@@ -29,6 +29,10 @@ def add_plant():
 def plant_details(plant_id):
     return render_template('plant.html', plant_id=plant_id)
 
+@app.route('/plant/<int:plant_id>/edit_plant', methods=['GET', 'PUT'])
+def edit_plant(plant_id):
+    return render_template('edit_plant.html', plant_id=plant_id)
+
 @app.route('/main_page', methods=['GET', 'POST'])
 def main_page():
     return render_template('main_page.html')
