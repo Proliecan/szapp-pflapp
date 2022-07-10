@@ -1,5 +1,4 @@
 from flask import render_template, redirect, url_for
-from .db_models import Plant, WaterlevelData
 from . import app
 
 # -----------------------------------------
