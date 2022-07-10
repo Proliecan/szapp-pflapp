@@ -119,7 +119,7 @@ ns.view = (function () {
                         water_value = '';
                     }
                     divs += `
-                        <a href="/plant/${plants[i].id}" class="plant${additionalClass} ">
+                        <a href="/plant/${plants[i].id}" class="plant${additionalClass} wave">
                             <ol>
                                 <li>${plants[i].name}</li>
                                 <li><img src="../${plants[i].image_file}" alt="Image" loading="lazy"></li>

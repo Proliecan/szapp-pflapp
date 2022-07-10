@@ -7,6 +7,7 @@
     --dark: #353535;
     --grey: #5b5b5b;
     --orange: #d79544;
+    --blue: #204590;
 }
 
 .hidden {
@@ -63,6 +64,13 @@ form *[type="text"] {
     background-color: var(--grey);
 }
 
+table {
+    border: 1px solid gray;
+    gap: 1cm;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 /* BUTTON */
 .btn {
     font-size: x-large;
@@ -115,15 +123,15 @@ btn:focus#delete {
     max-width: fit-content;
     max-height: fit-content;
     padding: 1rem;
-    background-color: #204590;
+    background-color: var(--blue);
 }
 
 btn:focus#update {
-    box-shadow: #45aad8 0 0 0 1.5px inset, #204590 0 2px 4px, #204590 0 7px 13px -3px, #45aad8 0 -3px 0 inset;
+    box-shadow: #45aad8 0 0 0 1.5px inset, var(--blue) 0 2px 4px, var(--blue) 0 7px 13px -3px, #45aad8 0 -3px 0 inset;
 }
 
 .btn:hover#update {
-    box-shadow: #204590 0 4px 8px, #204590 0 7px 13px -3px, #45aad8 0 -3px 0 inset;
+    box-shadow: var(--blue) 0 4px 8px, var(--blue) 0 7px 13px -3px, #45aad8 0 -3px 0 inset;
     transform: translateY(-2px);
 }
 
@@ -246,13 +254,6 @@ btn:focus#update {
     justify-content: center;
     color: var(--dark);
     font-size: 55pt;
-}
-
-table {
-    border: 1px solid gray;
-    gap: 1cm;
-    margin-left: auto;
-    margin-right: auto;
 }
 
 /* FOOTER */
