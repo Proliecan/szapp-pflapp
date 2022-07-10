@@ -33,7 +33,7 @@ h1 {
     font-size: 5em;
 
     color: var(--green);
-    
+
 }
 
 h2 {
@@ -109,7 +109,7 @@ btn:focus#delete {
     transform: translateY(2px);
 }
 
-/* EDIT-BUTTON */
+/* BUTTONS */
 .btn#update {
     font-size: x-large;
     max-width: fit-content;
@@ -130,6 +130,18 @@ btn:focus#update {
 .btn:active#update {
     box-shadow: #45aad8 0 3px 7px inset;
     transform: translateY(2px);
+}
+
+.btn_bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    gap: 3rem;
+    align-items: center;
+}
+
+.btn_bar .btn {
+    min-width: 8rem;
 }
 
 /* DETAILS */
