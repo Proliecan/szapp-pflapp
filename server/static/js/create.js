@@ -70,7 +70,7 @@ ns.controller = (function (m, v) {
         e.preventDefault();
 
         if (validate(name)) {
-            model.create(name, min_fill_value, max_fill_value, img_file)
+            model.create(name, min_fill_value, max_fill_value, img_file);
         } else {
             alert('No Name was given.');
         }

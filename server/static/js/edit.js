@@ -18,7 +18,7 @@ ns.model = (function () {
             console.log(plant_id);
             let ajax_options = {
                 type: 'GET',
-                url: '../api/plant/' + plant_id,
+                url: '../../api/plant/' + plant_id,
                 accept: 'application/json',
                 contentType: 'application/json',
                 dataType: 'json'
@@ -31,36 +31,24 @@ ns.model = (function () {
                     $event_pump.trigger('model_error', [xhr, textStatus, errorThrown]);
                 })
         },
-        update: function (fname, lname) {
+        update: function (plant_id, name, min_fill_value, max_fill_value, img_file) {
             let ajax_options = {
                 type: 'PUT',
-                url: 'api/people/' + lname,
+                url: '../../api/plant/' + plant_id,
                 accepts: 'application/json',
                 contentType: 'application/json',
                 dataType: 'json',
                 data: JSON.stringify({
-                    'fname': fname,
-                    'lname': lname
+                    'name': name,
+                    'image_file': img_file, 
+                    'min_fill_value': min_fill_value, 
+                    'max_fill_value': max_fill_value
                 })
             };
+            console.log(ajax_options.data);
             $.ajax(ajax_options)
                 .done(function (data) {
                     $event_pump.trigger('model_update_success', [data]);
-                })
-                .fail(function (xhr, textStatus, errorThrown) {
-                    $event_pump.trigger('model_error', [xhr, textStatus, errorThrown]);
-                })
-        },
-        'delete': function (plant_id) {
-            let ajax_options = {
-                type: 'DELETE',
-                url: '../api/plant/' + plant_id,
-                accepts: 'application/json',
-                contentType: 'plain/text'
-            };
-            $.ajax(ajax_options)
-                .done(function (data) {
-                    $event_pump.trigger('model_delete_success', [data]);
                 })
                 .fail(function (xhr, textStatus, errorThrown) {
                     $event_pump.trigger('model_error', [xhr, textStatus, errorThrown]);
@@ -82,8 +70,7 @@ ns.view = (function () {
             // $fname.val('').focus();
         },
         update_editor: function (fname, lname) {
-            // $lname.val(lname);
-            // $fname.val(fname).focus();
+            
         },
         build_one_div: function (plant) {
             if (plant) {
@@ -99,7 +86,7 @@ ns.view = (function () {
                 `<div class="details">
                     <div>
                         <h2>${plant.name}</h2>
-                        <img src="../${plant.image_file}" alt="Image" loading="lazy">
+                        <img src="../../${plant.image_file}" alt="Image" loading="lazy">
                         <div id="creation">You kept ${plant.name} alive since ${date.toLocaleDateString()}!</div>`
                 // div +=
                 // `       ${table}`
@@ -127,7 +114,11 @@ ns.controller = (function (m, v) {
     let model = m,
         view = v,
         $event_pump = $('body'),
-        plant_id = document.getElementById('plant_id_field');
+        plant_id = document.getElementById('plant_id_field'),
+        $p_name = $('#p_name'),
+        $p_max_fill_value = $('#p_max_fill_value'),
+        $p_min_fill_value = $('#p_min_fill_value'),
+        $p_img_file = $('#p_img_file');;
 
     // Get the data from the model after the controller is done initializing
     setTimeout(function () {
@@ -140,24 +131,20 @@ ns.controller = (function (m, v) {
     }
 
     $('#update').click(function (e) {
+        let name = $p_name.val(),
+            max_fill_value = parseInt($p_max_fill_value.val()),
+            min_fill_value = parseInt($p_min_fill_value.val()),
+            img_file = $p_img_file.val();
+        console.log(name);
+        console.log(max_fill_value, min_fill_value, img_file);
+
         e.preventDefault();
 
-        window.location = "/plant/"+parseInt(plant_id.textContent)+"/edit_plant";
-    });
-
-    $('#delete').click(function (e) {
-        // let lname = $plant_id.val();
-
-        e.preventDefault();
-
-        model.delete(parseInt(plant_id.textContent));
-
-        // if (validate('placeholder', lname)) {
-        //     model.delete(lname)
-        // } else {
-        //     alert('Problem with first or last name input');
-        // }
-        e.preventDefault();
+        if (validate(name)) {
+            model.update(parseInt(plant_id.textContent), name, min_fill_value, max_fill_value, img_file);
+        } else {
+            alert('No Name was given.');
+        }
     });
 
     $('#reset').click(function () {
@@ -171,11 +158,7 @@ ns.controller = (function (m, v) {
     });
 
     $event_pump.on('model_update_success', function (e, data) {
-        model.read_one();
-    });
-
-    $event_pump.on('model_delete_success', function (e, data) {
-        window.location = "/main_page";
+        window.location = "/plant/"+parseInt(plant_id.textContent);
     });
 
     $event_pump.on('model_error', function (e, xhr, textStatus, errorThrown) {
