@@ -10,7 +10,7 @@ def read_all():
     values = WaterlevelData.query.order_by(db.desc(WaterlevelData.report_time)).all()
 
     if values is not None:
-        values_schema = WaterlevelSchema(many=True, exclude=["plant.values"])
+        values_schema = WaterlevelSchema(many=True)#, exclude=["Plant.values"])
         data = values_schema.dump(values)
         return data
     else:
