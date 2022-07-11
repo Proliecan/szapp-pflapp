@@ -119,9 +119,9 @@ ns.view = (function () {
                         water_value = '';
                     }
                     divs += `
-                        <a href="/plant/${plants[i].id}" class="plant${additionalClass} ">
+                        <a href="/plant/${plants[i].id}" class="plant${additionalClass} wave">
                             <ol>
-                                <li>Name: ${plants[i].name}</li>
+                                <li>${plants[i].name}</li>
                                 <li><img src="../${plants[i].image_file}" alt="Image" loading="lazy"></li>
                                 <li>Creation Date: ${date.toLocaleDateString()}</li>
                                 <li>${water_value}</li>
@@ -157,8 +157,8 @@ ns.controller = (function (m, v) {
     }, 100)
 
     // Validate input
-    function validate(fname, lname) {
-        return fname !== "" && lname !== "";
+    function validate(name) {
+        return name !== "";
     }
 
     // Create our event handlers
