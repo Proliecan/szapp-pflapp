@@ -101,7 +101,7 @@ ns_.view = (function () {
 
                     data_values.push(water_values[i].value);
                 }
-                console.log(labels_.length, data_values.length);
+                console.log(labels_.length, data_values);
 
                 // build graph
 
