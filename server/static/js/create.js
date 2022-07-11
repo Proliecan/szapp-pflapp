@@ -52,8 +52,6 @@ ns.controller = (function (m, v) {
         $p_min_fill_value = $('#p_min_fill_value'),
         $p_img_file = $('#p_img_file');
 
-    // Get the data from the model after the controller is done initializing
-
     // Validate input
     function validate(name) {
         return name !== "";

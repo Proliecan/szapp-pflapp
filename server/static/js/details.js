@@ -4,10 +4,10 @@
  */
 
 // Create the namespace instance
-let ns = {};
+let ns_ = {};
 
 // Create the model instance
-ns.model = (function () {
+ns_.model = (function () {
     'use strict';
 
     let $event_pump = $('body');
@@ -27,25 +27,21 @@ ns.model = (function () {
                 .done(function (data) {
                     $event_pump.trigger('model_read_one_success', data);
                 })
-                .fail(function (xhr, textStatus, errorThrown){
+                .fail(function (xhr, textStatus, errorThrown) {
                     $event_pump.trigger('model_error', [xhr, textStatus, errorThrown]);
                 })
         },
-        update: function (fname, lname) {
+        'read_water_values': function (plant_id) {
+            console.log(plant_id);
             let ajax_options = {
-                type: 'PUT',
-                url: 'api/people/' + lname,
+                type: 'GET',
+                url: '../api/water_values/' + plant_id,
                 accepts: 'application/json',
-                contentType: 'application/json',
-                dataType: 'json',
-                data: JSON.stringify({
-                    'fname': fname,
-                    'lname': lname
-                })
+                dataType: 'json'
             };
             $.ajax(ajax_options)
                 .done(function (data) {
-                    $event_pump.trigger('model_update_success', [data]);
+                    $event_pump.trigger('model_read_success', data);
                 })
                 .fail(function (xhr, textStatus, errorThrown) {
                     $event_pump.trigger('model_error', [xhr, textStatus, errorThrown]);
@@ -70,44 +66,73 @@ ns.model = (function () {
 }());
 
 // Create the view instance
-ns.view = (function () {
+ns_.view = (function () {
     'use strict';
 
     // let $name = $('#name');
 
     // return the API
     return {
-        reset: function () {
-            // $lname.val('');
-            // $fname.val('').focus();
-        },
-        update_editor: function (fname, lname) {
-            // $lname.val(lname);
-            // $fname.val(fname).focus();
-        },
         build_one_div: function (plant) {
             if (plant) {
-                console.log(plant);
                 let date = new Date(plant.creation_date);
-                // let table = `<table id="table"><tr><th>Report Time</th><th>Value</th></tr>`;
-                // for (let i = 0, l = plant.values.length; i < l; i ++) {
-                //     let date = new Date(plant.values[i].report_time);
-                //     table += `<tr><td>${date.toLocaleDateString()} ${date.toLocaleTimeString()}</td><td>${plant.values[i].value}</td>`
-                // }
-                // table += `</tr></table>`;
-                let div = 
-                `<div class="details">
+                let div =
+                    `<div class="details">
                     <div>
                         <h2>${plant.name}</h2>
                         <img src="../${plant.image_file}" alt="Image" loading="lazy">
                         <div id="creation">You kept ${plant.name} alive since ${date.toLocaleDateString()}!</div>`
-                // div +=
-                // `       ${table}`
                 div +=
-                `       </div>
+                    `       </div>
                 </div>`;
-                $('body').append(div);
+                $('#p_container').append(div);
+
+                // prepare data for graph
+                let water_values = plant.values;
+                console.log(typeof water_values);
+                console.log(water_values);
+                console.log(water_values[0].id);
+                let labels_ = [];
+                let data_values = [];
+                for (let i = 0; i < water_values.length; i++) {
+                    let date = new Date(water_values[i].report_time);
+
+                    labels_.push(date);
+
+                    data_values.push(water_values[i].value);
+                }
+                console.log(labels_.length, data_values.length);
+
+                // build graph
+
+                const data = {
+                    labels: labels_,
+                    datasets: [{
+                        label: 'Water level',
+                        backgroundColor: 'rgb(169, 186, 90)',
+                        borderColor: 'rgb(32, 69, 144)',
+                        color: '#000',
+                        data: data_values,
+                        fill: false,
+                        tension: 0.3,
+                    }]
+                };
+                const config = {
+                    type: 'line',
+                    data: data,
+                    options: {
+                        layout: {
+                            padding: 20
+                        }
+                    }
+                };
+
+                const water_level_graph = new Chart(
+                    document.getElementById('water_level_graph'),
+                    config
+                );
             }
+            return false;
         },
         error: function (error_msg) {
             $('.error')
@@ -121,7 +146,7 @@ ns.view = (function () {
 }());
 
 // Create the controller
-ns.controller = (function (m, v) {
+ns_.controller = (function (m, v) {
     'use strict';
 
     let model = m,
@@ -132,7 +157,11 @@ ns.controller = (function (m, v) {
     // Get the data from the model after the controller is done initializing
     setTimeout(function () {
         model.read_one(parseInt(plant_id.textContent));
-    }, 100)
+    }, 10);
+
+    // setTimeout(function () {
+    //     model.read_water_values(parseInt(plant_id.textContent));
+    // }, 100);
 
     // Validate input
     function validate(name) {
@@ -142,21 +171,12 @@ ns.controller = (function (m, v) {
     $('#update').click(function (e) {
         e.preventDefault();
 
-        window.location = "/plant/"+parseInt(plant_id.textContent)+"/edit_plant";
+        window.location = "/plant/" + parseInt(plant_id.textContent) + "/edit_plant";
     });
 
     $('#delete').click(function (e) {
-        // let lname = $plant_id.val();
-
         e.preventDefault();
-
         model.delete(parseInt(plant_id.textContent));
-
-        // if (validate('placeholder', lname)) {
-        //     model.delete(lname)
-        // } else {
-        //     alert('Problem with first or last name input');
-        // }
         e.preventDefault();
     });
 
@@ -167,15 +187,16 @@ ns.controller = (function (m, v) {
     // Handle the model events
     $event_pump.on('model_read_one_success', function (e, data) {
         view.build_one_div(data);
-        view.reset();
-    });
-
-    $event_pump.on('model_update_success', function (e, data) {
-        model.read_one();
+        // view.reset();
+        e.preventDefault();
     });
 
     $event_pump.on('model_delete_success', function (e, data) {
         window.location = "/main_page";
+    });
+
+    $event_pump.on('model_read_success', function (e, data) {
+        view.build_graph(data);
     });
 
     $event_pump.on('model_error', function (e, xhr, textStatus, errorThrown) {
@@ -183,4 +204,4 @@ ns.controller = (function (m, v) {
         view.error(error_msg);
         console.log(error_msg);
     })
-}(ns.model, ns.view));
+}(ns_.model, ns_.view));

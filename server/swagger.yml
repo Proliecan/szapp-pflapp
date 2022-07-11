@@ -176,3 +176,40 @@ paths:
       responses:
         200:
           description: Successfully updated plant in plants list
+  /water_values/{plant_id}:
+    get:
+      operationId: server.water_values.read_all_by_id
+      tags:
+        - water_values
+      summary: Read all values of one plant
+      description: Reads all given values of one plant by its ID
+      parameters:
+        - name: plant_id
+          in: path
+          type: integer
+          description: id of plant
+          required: True
+      responses:
+        200:
+          description: Successfully read all values of one plant
+          schema:
+            type: array
+            items:
+              properties:
+                id:
+                  type: integer
+                  description: TODO
+                name: 
+                  type: integer
+                  description: TODO
+                plant_id:
+                  type: integer
+                  description: TODO
+                report_time:
+                  type: string
+                  description: TODO
+                value:
+                  type: integer
+                  description: TODO
+        404: 
+          description: plant_id could not be found

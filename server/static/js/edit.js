@@ -27,7 +27,7 @@ ns.model = (function () {
                 .done(function (data) {
                     $event_pump.trigger('model_read_one_success', data);
                 })
-                .fail(function (xhr, textStatus, errorThrown){
+                .fail(function (xhr, textStatus, errorThrown) {
                     $event_pump.trigger('model_error', [xhr, textStatus, errorThrown]);
                 })
         },
@@ -40,8 +40,8 @@ ns.model = (function () {
                 dataType: 'json',
                 data: JSON.stringify({
                     'name': name,
-                    'image_file': img_file, 
-                    'min_fill_value': min_fill_value, 
+                    'image_file': img_file,
+                    'min_fill_value': min_fill_value,
                     'max_fill_value': max_fill_value
                 })
             };
@@ -70,7 +70,7 @@ ns.view = (function () {
             // $fname.val('').focus();
         },
         update_editor: function (fname, lname) {
-            
+
         },
         build_one_div: function (plant) {
             if (plant) {
@@ -82,8 +82,8 @@ ns.view = (function () {
                 //     table += `<tr><td>${date.toLocaleDateString()} ${date.toLocaleTimeString()}</td><td>${plant.values[i].value}</td>`
                 // }
                 // table += `</tr></table>`;
-                let div = 
-                `<div class="details">
+                let div =
+                    `<div class="details">
                     <div>
                         <h2>${plant.name}</h2>
                         <img src="../../${plant.image_file}" alt="Image" loading="lazy">
@@ -91,7 +91,7 @@ ns.view = (function () {
                 // div +=
                 // `       ${table}`
                 div +=
-                `       </div>
+                    `       </div>
                 </div>`;
                 $('body').append(div);
             }
@@ -158,7 +158,7 @@ ns.controller = (function (m, v) {
     });
 
     $event_pump.on('model_update_success', function (e, data) {
-        window.location = "/plant/"+parseInt(plant_id.textContent);
+        window.location = "/plant/" + parseInt(plant_id.textContent);
     });
 
     $event_pump.on('model_error', function (e, xhr, textStatus, errorThrown) {
