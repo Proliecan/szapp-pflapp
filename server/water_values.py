@@ -35,6 +35,7 @@ def delete_all(plant_id):
     """
         Delete all values of one plant
     """
+    print(plant_id, type(plant_id))
     values = WaterlevelData.query.join(Plant, Plant.id == WaterlevelData.plant_id).filter(Plant.id == plant_id).all()
 
     if values is not None:
