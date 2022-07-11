@@ -42,6 +42,8 @@ def create_plant(plant):
     existing_plant = Plant.query.filter(Plant.name == p_name).one_or_none()
 
     if existing_plant is None:
+        print("here")
+
         schema = PlantSchema()
         new_plant = schema.load(plant, session=db.session)
 
@@ -59,7 +61,7 @@ def update(plant_id, new_plant):
     """
         Update a plant by its id. 
     """
-    old_plant = Plant.query.filter(Plant.id == plant_id).on_or_none()
+    old_plant = Plant.query.filter(Plant.id == plant_id).one_or_none()
     
     p_name = new_plant.get("name")
 
@@ -69,12 +71,12 @@ def update(plant_id, new_plant):
         schema = PlantSchema()
         update = schema.load(new_plant, session=db.session)
 
-        update.plant_id = old_plant.plant_id
+        update.id = old_plant.id
 
         db.session.merge(update)
         db.session.commit()
 
-        data = schema.dump()
+        data = schema.dump(update)
 
         return data, 200
     else:
