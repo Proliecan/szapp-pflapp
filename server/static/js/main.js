@@ -107,19 +107,24 @@ ns.view = (function () {
             if (plants) {
                 for (let i = 0, l = plants.length; i < l; i++) {
                     let date = new Date(plants[i].creation_date);
-                    let value;
+                    let water_value;
+                    let dryWaterLevel = (plants[i].max_fill_value - plants[i].min_fill_value) * 0.3;
+                    let additionalClass = '';
                     if (typeof plants[i].values[0] !== 'undefined') {
-                        value = plants[i].values[0].value;
+                        water_value = plants[i].values[0].value;
+                        if (water_value <= dryWaterLevel) {
+                            additionalClass = ' dry'
+                        }
                     } else {
-                        value = '';
+                        water_value = '';
                     }
                     divs += `
-                        <a href="/plant/${plants[i].id}" class="plant">
+                        <a href="/plant/${plants[i].id}" class="plant${additionalClass} wave">
                             <ol>
-                                <li>Name: ${plants[i].name}</li>
+                                <li>${plants[i].name}</li>
                                 <li><img src="../${plants[i].image_file}" alt="Image" loading="lazy"></li>
                                 <li>Creation Date: ${date.toLocaleDateString()}</li>
-                                <li>${value}</li>
+                                <li>${water_value}</li>
                             </ol>
                         </a>`;
                 }
@@ -152,8 +157,8 @@ ns.controller = (function (m, v) {
     }, 100)
 
     // Validate input
-    function validate(fname, lname) {
-        return fname !== "" && lname !== "";
+    function validate(name) {
+        return name !== "";
     }
 
     // Create our event handlers
