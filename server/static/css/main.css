@@ -185,10 +185,6 @@ btn:focus#update {
     /* grid-template-columns: repeat(3, 1fr); */
 }
 
-.dry {
-    background-color: var(--orange) !important;
-}
-
 .plant {
     background-color: var(--green);
     border: 2px solid var(--dark);
