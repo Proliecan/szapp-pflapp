@@ -28,7 +28,6 @@ ns.model = (function () {
                     'max_fill_value': max_fill_value
                 })
             };
-            console.log("heree");
             $.ajax(ajax_options)
                 .done(function (data) {
                     $event_pump.trigger('model_create_success', [data]);
@@ -63,8 +62,6 @@ ns.controller = (function (m, v) {
             max_fill_value = parseInt($p_max_fill_value.val()),
             min_fill_value = parseInt($p_min_fill_value.val()),
             img_file = $p_img_file.val();
-        console.log(name);
-        console.log(max_fill_value, min_fill_value, img_file);
         e.preventDefault();
 
         if (validate(name)) {

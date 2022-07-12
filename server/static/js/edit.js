@@ -15,7 +15,6 @@ ns.model = (function () {
     // Return the API
     return {
         'read_one': function (plant_id) {
-            console.log(plant_id);
             let ajax_options = {
                 type: 'GET',
                 url: '../../api/plant/' + plant_id,
@@ -45,7 +44,6 @@ ns.model = (function () {
                     'max_fill_value': max_fill_value
                 })
             };
-            console.log(ajax_options.data);
             $.ajax(ajax_options)
                 .done(function (data) {
                     $event_pump.trigger('model_update_success', [data]);
@@ -135,8 +133,6 @@ ns.controller = (function (m, v) {
             max_fill_value = parseInt($p_max_fill_value.val()),
             min_fill_value = parseInt($p_min_fill_value.val()),
             img_file = $p_img_file.val();
-        console.log(name);
-        console.log(max_fill_value, min_fill_value, img_file);
 
         e.preventDefault();
 
