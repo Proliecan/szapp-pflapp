@@ -28,60 +28,6 @@ ns.model = (function () {
                 .fail(function (xhr, textStatus, errorThrown) {
                     $event_pump.trigger('model_error', [xhr, textStatus, errorThrown]);
                 })
-        },
-        create: function (name) {
-            let ajax_options = {
-                type: 'POST',
-                url: 'api/plants',
-                accepts: 'application/json',
-                contentType: 'application/json',
-                dataType: 'json',
-                data: JSON.stringify({
-                    'name': name
-                })
-            };
-            $.ajax(ajax_options)
-                .done(function (data) {
-                    $event_pump.trigger('model_create_success', [data]);
-                })
-                .fail(function (xhr, textStatus, errorThrown) {
-                    $event_pump.trigger('model_error', [xhr, textStatus, errorThrown]);
-                })
-        },
-        update: function (fname, lname) {
-            let ajax_options = {
-                type: 'PUT',
-                url: 'api/people/' + lname,
-                accepts: 'application/json',
-                contentType: 'application/json',
-                dataType: 'json',
-                data: JSON.stringify({
-                    'fname': fname,
-                    'lname': lname
-                })
-            };
-            $.ajax(ajax_options)
-                .done(function (data) {
-                    $event_pump.trigger('model_update_success', [data]);
-                })
-                .fail(function (xhr, textStatus, errorThrown) {
-                    $event_pump.trigger('model_error', [xhr, textStatus, errorThrown]);
-                })
-        },
-        'delete': function (lname) {
-            let ajax_options = {
-                type: 'DELETE',
-                url: 'api/people/' + lname,
-                accepts: 'application/json',
-                contentType: 'plain/text'
-            };
-            $.ajax(ajax_options)
-                .done(function (data) {
-                    $event_pump.trigger('model_delete_success', [data]);
-                })
-                .fail(function (xhr, textStatus, errorThrown) {
-                    $event_pump.trigger('model_error', [xhr, textStatus, errorThrown]);
-                })
         }
     };
 }());
@@ -94,32 +40,33 @@ ns.view = (function () {
 
     // return the API
     return {
-        reset: function () {
-            // $lname.val('');
-            // $fname.val('').focus();
-        },
-        update_editor: function (fname, lname) {
-            // $lname.val(lname);
-            // $fname.val(fname).focus();
-        },
-        build_divs: function (plants) { 
+        build_divs: function (plants) {
             let divs = ''
             if (plants) {
                 for (let i = 0, l = plants.length; i < l; i++) {
                     let date = new Date(plants[i].creation_date);
-                    let value;
+                    let water_value;
+                    let dryWaterLevel = (plants[i].max_fill_value - plants[i].min_fill_value) * 0.3;
+                    let additionalClass = '';
                     if (typeof plants[i].values[0] !== 'undefined') {
-                        value = plants[i].values[0].value;
+                        water_value = plants[i].values[0].value;
+                        if (water_value <= dryWaterLevel) {
+                            additionalClass = ' dry'
+                        }
                     } else {
-                        value = '';
+                        water_value = '';
                     }
+                    // calculate percentage of water
+                    let percentage = (water_value - plants[i].min_fill_value) / (plants[i].max_fill_value - plants[i].min_fill_value) * 100;
+                    // clip percentage
+                    let clipped_percentage = Math.min(Math.max(percentage, 5), 95);
                     divs += `
-                        <a href="/plant/${plants[i].id}" class="plant">
+                        <a href="/plant/${plants[i].id}" class="plant${additionalClass} wave" style="--percentage:${clipped_percentage.toString()+"%"}">
                             <ol>
-                                <li>Name: ${plants[i].name}</li>
+                                <li>${plants[i].name}</li>
                                 <li><img src="../${plants[i].image_file}" alt="Image" loading="lazy"></li>
                                 <li>Creation Date: ${date.toLocaleDateString()}</li>
-                                <li>${value}</li>
+                                <li>${percentage.toString()+"%"}</li>
                             </ol>
                         </a>`;
                 }
@@ -143,45 +90,17 @@ ns.controller = (function (m, v) {
 
     let model = m,
         view = v,
-        $event_pump = $('body'),
-        $name = $('#name');
+        $event_pump = $('body');
 
     // Get the data from the model after the controller is done initializing
     setTimeout(function () {
         model.read();
-    }, 100)
-
-    // Validate input
-    function validate(fname, lname) {
-        return fname !== "" && lname !== "";
-    }
-
-    // Create our event handlers
-    $('#create').click(function (e) {
-        let fname = $fname.val(),
-            lname = $lname.val();
-
-        e.preventDefault();
-
-        if (validate(fname, lname)) {
-            model.create(fname, lname)
-        } else {
-            alert('Problem with first or last name input');
-        }
-    });
-
-    $('#reset').click(function () {
-        view.reset();
-    })
+    }, 10)
 
     // Handle the model events
     $event_pump.on('model_read_success', function (e, data) {
         view.build_divs(data);
         view.reset();
-    });
-
-    $event_pump.on('model_create_success', function (e, data) {
-        model.read();
     });
 
     $event_pump.on('model_error', function (e, xhr, textStatus, errorThrown) {

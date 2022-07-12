@@ -4,10 +4,10 @@
  */
 
 // Create the namespace instance
-let ns_ = {};
+let ns = {};
 
 // Create the model instance
-ns_.model = (function () {
+ns.model = (function () {
     'use strict';
 
     let $event_pump = $('body');
@@ -15,10 +15,9 @@ ns_.model = (function () {
     // Return the API
     return {
         'read_one': function (plant_id) {
-            console.log(plant_id);
             let ajax_options = {
                 type: 'GET',
-                url: '../api/plant/' + plant_id,
+                url: '../../api/plant/' + plant_id,
                 accept: 'application/json',
                 contentType: 'application/json',
                 dataType: 'json'
@@ -31,16 +30,23 @@ ns_.model = (function () {
                     $event_pump.trigger('model_error', [xhr, textStatus, errorThrown]);
                 })
         },
-        'delete': function (plant_id) {
+        update: function (plant_id, name, min_fill_value, max_fill_value, img_file) {
             let ajax_options = {
-                type: 'DELETE',
-                url: '../api/plant/' + plant_id,
+                type: 'PUT',
+                url: '../../api/plant/' + plant_id,
                 accepts: 'application/json',
-                contentType: 'plain/text'
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify({
+                    'name': name,
+                    'image_file': img_file,
+                    'min_fill_value': min_fill_value,
+                    'max_fill_value': max_fill_value
+                })
             };
             $.ajax(ajax_options)
                 .done(function (data) {
-                    $event_pump.trigger('model_delete_success', [data]);
+                    $event_pump.trigger('model_update_success', [data]);
                 })
                 .fail(function (xhr, textStatus, errorThrown) {
                     $event_pump.trigger('model_error', [xhr, textStatus, errorThrown]);
@@ -50,72 +56,43 @@ ns_.model = (function () {
 }());
 
 // Create the view instance
-ns_.view = (function () {
+ns.view = (function () {
     'use strict';
+
+    // let $name = $('#name');
 
     // return the API
     return {
+        reset: function () {
+            // $lname.val('');
+            // $fname.val('').focus();
+        },
+        update_editor: function (fname, lname) {
+
+        },
         build_one_div: function (plant) {
             if (plant) {
+                console.log(plant);
                 let date = new Date(plant.creation_date);
+                // let table = `<table id="table"><tr><th>Report Time</th><th>Value</th></tr>`;
+                // for (let i = 0, l = plant.values.length; i < l; i ++) {
+                //     let date = new Date(plant.values[i].report_time);
+                //     table += `<tr><td>${date.toLocaleDateString()} ${date.toLocaleTimeString()}</td><td>${plant.values[i].value}</td>`
+                // }
+                // table += `</tr></table>`;
                 let div =
                     `<div class="details">
                     <div>
                         <h2>${plant.name}</h2>
-                        <img src="../${plant.image_file}" alt="Image" loading="lazy">
+                        <img src="../../${plant.image_file}" alt="Image" loading="lazy">
                         <div id="creation">You kept ${plant.name} alive since ${date.toLocaleDateString()}!</div>`
+                // div +=
+                // `       ${table}`
                 div +=
                     `       </div>
                 </div>`;
-                $('#p_container').append(div);
-
-                // insert name of plant into header
-                $('#details_header').append(plant.name);
-
-                // prepare data for graph
-                const dateformat_options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'};
-
-                let water_values = plant.values;
-                let labels_ = [];
-                let data_values = [];
-                for (let i = 0; i < water_values.length; i++) {
-                    let date = new Date(water_values[i].report_time);
-
-                    labels_.push(date.toLocaleDateString("de-DE", dateformat_options));
-
-                    data_values.push(water_values[i].value);
-                }
-
-                // build graph
-
-                const data = {
-                    labels: labels_,
-                    datasets: [{
-                        label: 'Water level',
-                        backgroundColor: 'rgb(169, 186, 90)',
-                        borderColor: 'rgb(32, 69, 144)',
-                        color: '#000',
-                        data: data_values,
-                        fill: false,
-                        tension: 0.3,
-                    }]
-                };
-                const config = {
-                    type: 'line',
-                    data: data,
-                    options: {
-                        layout: {
-                            padding: 20
-                        }
-                    }
-                };
-
-                const water_level_graph = new Chart(
-                    document.getElementById('water_level_graph'),
-                    config
-                );
+                $('body').append(div);
             }
-            return false;
         },
         error: function (error_msg) {
             $('.error')
@@ -129,18 +106,22 @@ ns_.view = (function () {
 }());
 
 // Create the controller
-ns_.controller = (function (m, v) {
+ns.controller = (function (m, v) {
     'use strict';
 
     let model = m,
         view = v,
         $event_pump = $('body'),
-        plant_id = document.getElementById('plant_id_field');
+        plant_id = document.getElementById('plant_id_field'),
+        $p_name = $('#p_name'),
+        $p_max_fill_value = $('#p_max_fill_value'),
+        $p_min_fill_value = $('#p_min_fill_value'),
+        $p_img_file = $('#p_img_file');;
 
     // Get the data from the model after the controller is done initializing
     setTimeout(function () {
         model.read_one(parseInt(plant_id.textContent));
-    }, 10);
+    }, 100)
 
     // Validate input
     function validate(name) {
@@ -148,26 +129,32 @@ ns_.controller = (function (m, v) {
     }
 
     $('#update').click(function (e) {
+        let name = $p_name.val(),
+            max_fill_value = parseInt($p_max_fill_value.val()),
+            min_fill_value = parseInt($p_min_fill_value.val()),
+            img_file = $p_img_file.val();
+
         e.preventDefault();
 
-        window.location = "/plant/" + parseInt(plant_id.textContent) + "/edit_plant";
+        if (validate(name)) {
+            model.update(parseInt(plant_id.textContent), name, min_fill_value, max_fill_value, img_file);
+        } else {
+            alert('No Name was given.');
+        }
     });
 
-    $('#delete').click(function (e) {
-        e.preventDefault();
-        model.delete(parseInt(plant_id.textContent));
-        e.preventDefault();
-    });
+    $('#reset').click(function () {
+        view.reset();
+    })
 
     // Handle the model events
     $event_pump.on('model_read_one_success', function (e, data) {
         view.build_one_div(data);
-        // view.reset();
-        e.preventDefault();
+        view.reset();
     });
 
-    $event_pump.on('model_delete_success', function (e, data) {
-        window.location = "/main_page";
+    $event_pump.on('model_update_success', function (e, data) {
+        window.location = "/plant/" + parseInt(plant_id.textContent);
     });
 
     $event_pump.on('model_error', function (e, xhr, textStatus, errorThrown) {
@@ -175,4 +162,4 @@ ns_.controller = (function (m, v) {
         view.error(error_msg);
         console.log(error_msg);
     })
-}(ns_.model, ns_.view));
+}(ns.model, ns.view));

@@ -5,4 +5,7 @@ Flask_SQLAlchemy
 marshmallow
 marshmallow_sqlalchemy
 matplotlib
+numpy
 python_dateutil
+scipy
+UliEngineering

@@ -10,11 +10,25 @@ def read_all():
     values = WaterlevelData.query.order_by(db.desc(WaterlevelData.report_time)).all()
 
     if values is not None:
-        values_schema = WaterlevelSchema(many=True, exclude=["plant.values"])
+        values_schema = WaterlevelSchema(many=True)#, exclude=["Plant.values"])
         data = values_schema.dump(values)
         return data
     else:
         abort(404, "Could not find any values.")
+
+
+def read_all_by_id(plant_id):
+    """
+        Read all values of one plant
+    """
+    values = WaterlevelData.query.join(Plant, Plant.id == WaterlevelData.plant_id).filter(Plant.id == plant_id).order_by(db.desc(WaterlevelData.report_time)).all()
+
+    if values is not None:
+        values_schema = WaterlevelSchema(many=True)
+        data = values_schema.dump(values)
+        return data
+    else:
+        abort(404, f"Values for plant {plant_id} not found.")
 
 
 def read_last(plant_id):
@@ -35,6 +49,7 @@ def delete_all(plant_id):
     """
         Delete all values of one plant
     """
+    print(plant_id, type(plant_id))
     values = WaterlevelData.query.join(Plant, Plant.id == WaterlevelData.plant_id).filter(Plant.id == plant_id).all()
 
     if values is not None:

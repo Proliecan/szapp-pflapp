@@ -1,6 +1,6 @@
 # szapp-pflapp
 
-I bims, die readme Owo
+I bims, die readme Owo!
 
 ## Frontend
 

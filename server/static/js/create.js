@@ -14,7 +14,7 @@ ns.model = (function () {
 
     // Return the API
     return {
-        create: function (name) {
+        create: function (name, min_fill_value, max_fill_value, img_file) {
             let ajax_options = {
                 type: 'POST',
                 url: 'api/plants',
@@ -22,7 +22,10 @@ ns.model = (function () {
                 contentType: 'application/json',
                 dataType: 'json',
                 data: JSON.stringify({
-                    'name': name
+                    'name': name,
+                    'image_file': img_file, 
+                    'min_fill_value': min_fill_value, 
+                    'max_fill_value': max_fill_value
                 })
             };
             $.ajax(ajax_options)
@@ -36,65 +39,41 @@ ns.model = (function () {
     };
 }());
 
-// Create the view instance
-ns.view = (function () {
-    'use strict';
-
-    // let $name = $('#name');
-
-    // return the API
-    return {
-        reset: function () {
-            // $lname.val('');
-            // $fname.val('').focus();
-        },
-        update_editor: function (fname, lname) {
-            // $lname.val(lname);
-            // $fname.val(fname).focus();
-        },
-        error: function (error_msg) {
-            $('.error')
-                .text(error_msg)
-                .css('visibility', 'visible');
-            setTimeout(function () {
-                $('.error').css('visibility', 'hidden');
-            }, 3000)
-        }
-    };
-}());
-
 // Create the controller
 ns.controller = (function (m, v) {
     'use strict';
 
     let model = m,
         view = v,
-        $event_pump = $('body');
-
-    // Get the data from the model after the controller is done initializing
+        $event_pump = $('body'),
+        $p_name = $('#p_name'),
+        $p_max_fill_value = $('#p_max_fill_value'),
+        $p_min_fill_value = $('#p_min_fill_value'),
+        $p_img_file = $('#p_img_file');
 
     // Validate input
-    function validate(fname, lname) {
-        return fname !== "" && lname !== "";
+    function validate(name) {
+        return name !== "";
     }
 
     // Create our event handlers
     $('#create').click(function (e) {
-        let fname = $fname.val(),
-            lname = $lname.val();
-
+        let name = $p_name.val(),
+            max_fill_value = parseInt($p_max_fill_value.val()),
+            min_fill_value = parseInt($p_min_fill_value.val()),
+            img_file = $p_img_file.val();
         e.preventDefault();
 
-        if (validate(fname, lname)) {
-            model.create(fname, lname)
+        if (validate(name)) {
+            model.create(name, min_fill_value, max_fill_value, img_file);
         } else {
-            alert('Problem with first or last name input');
+            alert('No Name was given.');
         }
     });
 
     // Handle the model events
     $event_pump.on('model_create_success', function (e, data) {
-        model.read();
+        window.location = "/main_page";
     });
 
     $event_pump.on('model_error', function (e, xhr, textStatus, errorThrown) {

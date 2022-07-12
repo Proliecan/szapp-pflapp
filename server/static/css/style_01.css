@@ -19,9 +19,10 @@ h1 {
     color: #a9ba5a;
 }
 
-#btnStart {
+.btn {
     align-items: center;
     margin-top: 16pt;
+    color: #000000;
     appearance: none;
     background-color: #a9ba5a;
     border-radius: 4px;
@@ -50,16 +51,16 @@ h1 {
     font-size: 18px;
 }
 
-#btnStart:focus {
+.btn:focus {
     box-shadow: #c2d666 0 0 0 1.5px inset, #62711c 0 2px 4px, #62711c 0 7px 13px -3px, #c2d666 0 -3px 0 inset;
 }
 
-#btnStart:hover {
+.btn:hover {
     box-shadow: #62711c 0 4px 8px, #62711c 0 7px 13px -3px, #c2d666 0 -3px 0 inset;
     transform: translateY(-2px);
 }
 
-#btnStart:active {
+.btn:active {
     box-shadow: #c2d666 0 3px 7px inset;
     transform: translateY(2px);
 }
