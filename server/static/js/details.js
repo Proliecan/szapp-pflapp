@@ -58,21 +58,14 @@ ns_.view = (function () {
         build_one_div: function (plant) {
             if (plant) {
                 let date = new Date(plant.creation_date);
-                let div =
-                    `<div class="details">
-                    <div>
-                        <h2>${plant.name}</h2>
-                        <img src="../${plant.image_file}" alt="Image" loading="lazy">
-                        <div id="creation">You kept ${plant.name} alive since ${date.toLocaleDateString()}!</div>`
-                div +=
-                    `       </div>
-                </div>`;
-                $('#p_container').append(div);
+                // $('#p_container').append(`<h2>${plant.name}</h2>`);
+                $('#f_container').append(`<div id="creation">You kept ${plant.name} alive since ${date.toLocaleDateString()}!</div>`);
 
                 // prepare data for graph
                 const dateformat_options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'};
 
                 let water_values = plant.values;
+                
                 let labels_ = [];
                 let data_values = [];
                 for (let i = 0; i < water_values.length; i++) {
@@ -82,6 +75,15 @@ ns_.view = (function () {
 
                     data_values.push(water_values[i].value);
                 }
+
+                // replace nine out of x labels with ``
+                labels_ = labels_.map(function (label, index) {
+                    if (index % 5 === 0) {
+                        return `${label}`;
+                    }
+                    return ``;
+                })
+                
 
                 // build graph
 

@@ -13,26 +13,24 @@
     </script>
     <script type="application/x-javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        canvas {
-            width: 100%;
-            width: 400;
-            height: 400;
+        body * {
+            margin-left: 5%;
         }
     </style>
 </head>
 
 <body>
-    <div style="display: flex; flex-direction: column; align-items: center;">
-        <h1>Plants Detail Page {{ plant_id }}</h1>
-        <p id="plant_id_field" hidden>{{ plant_id }}</p>
-        <div class="btn_bar">
-            <button id="update" class="btn">Edit</button>
-            <button id="delete" class="btn">Delete</button>
-        </div>
-        <div id="p_container"></div>
+    <div class="btn_bar">
+        <button id="update" class="btn">Edit</button>
+        <button id="delete" class="btn">Delete</button>
     </div>
-    <div>
-        <canvas id="water_level_graph"></canvas>
+    <div style="display: flex; flex-direction: column; align-items: center;">
+        <p id="plant_id_field" hidden>{{ plant_id }}</p>
+        <div class="details">
+            <div id="p_container"></div>
+            <div id="f_container"></div>
+            <canvas id="water_level_graph"></canvas>
+        </div>
     </div>
 </body>
 <script type="application/x-javascript" src="../static/js/details.js"></script>
