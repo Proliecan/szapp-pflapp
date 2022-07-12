@@ -54,6 +54,7 @@ a {
     color: var(--white);
 
     opacity: 0.7;
+    text-decoration: none;
 }
 
 form * {
@@ -71,6 +72,21 @@ table {
     margin-right: auto;
 }
 
+/* NAV */
+nav {
+    background-color: var(--green);
+    padding: 1%;
+    margin: 0;
+    top: 0;
+    left: 0;
+    border-radius: 30px;
+    height: 5vh;
+}
+
+nav a {
+    color: black;
+    padding: .3rem;
+}
 
 /* BUTTON */
 .btn {
@@ -148,7 +164,7 @@ btn:focus#update {
     gap: 3rem;
     align-items: center;
     width: 15%;
-    position: fixed;
+    position: absolute;
     height: 100%;
     overflow: auto;
 }
