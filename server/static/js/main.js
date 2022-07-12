@@ -63,10 +63,10 @@ ns.view = (function () {
                     divs += `
                         <a href="/plant/${plants[i].id}" class="plant${additionalClass} wave" style="--percentage:${clipped_percentage.toString()+"%"}">
                             <ol>
-                                <li>${plants[i].name}</li>
-                                <li><img src="../${plants[i].image_file}" alt="Image" loading="lazy"></li>
-                                <li>Creation Date: ${date.toLocaleDateString()}</li>
-                                <li>${percentage.toString()+"%"}</li>
+                                <li class="text">${plants[i].name}</li>
+                                <li class="text"><img src="../${plants[i].image_file}" alt="Image" loading="lazy"></li>
+                                <li class="text">Creation Date: ${date.toLocaleDateString()}</li>
+                                <li class="text">${percentage.toString()+"%"}</li>
                             </ol>
                         </a>`;
                 }

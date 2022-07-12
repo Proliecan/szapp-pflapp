@@ -276,3 +276,8 @@ footer * {
     text-align: left;
     font-size: x-large;
 }
+
+.text{
+    position: relative;
+    z-index: 2;
+}
