@@ -56,13 +56,17 @@ ns.view = (function () {
                     } else {
                         water_value = '';
                     }
+                    // calculate percentage of water
+                    let percentage = (water_value - plants[i].min_fill_value) / (plants[i].max_fill_value - plants[i].min_fill_value) * 100;
+                    // clip percentage
+                    let clipped_percentage = Math.min(Math.max(percentage, 5), 95);
                     divs += `
-                        <a href="/plant/${plants[i].id}" class="plant${additionalClass} wave">
+                        <a href="/plant/${plants[i].id}" class="plant${additionalClass} wave" style="--percentage:${clipped_percentage.toString()+"%"}">
                             <ol>
                                 <li>${plants[i].name}</li>
                                 <li><img src="../${plants[i].image_file}" alt="Image" loading="lazy"></li>
                                 <li>Creation Date: ${date.toLocaleDateString()}</li>
-                                <li>${water_value}</li>
+                                <li>${percentage.toString()+"%"}</li>
                             </ol>
                         </a>`;
                 }

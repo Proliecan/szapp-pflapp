@@ -211,7 +211,8 @@ btn:focus#update {
 
 .plant>ol li:first-child {
     font-size: xx-large;
-    color: var(--grey);
+    color: var(--white);
+    text-shadow: var(--grey) -.2rem .2rem .2rem;
 }
 
 .plant>ol li img {
@@ -221,7 +222,8 @@ btn:focus#update {
 
 .plant>ol li:last-child {
     font-size: x-large;
-    color: #007acc;
+    color: #71bced;
+    text-shadow: var(--grey) -.2rem .2rem .2rem;
 }
 
 .plant:focus {
