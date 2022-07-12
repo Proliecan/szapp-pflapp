@@ -14,6 +14,9 @@ def read_all():
         plant_schema = PlantSchema(many=True)
         data = plant_schema.dump(plants)
 
+        for i in range(len(data)):
+            data[i]['values'] = sorted(data[i]['values'], key=lambda d: d['report_time'], reverse=False)
+
         return data
     else:
         abort(404, "No plants found.")
