@@ -15,7 +15,6 @@ ns.model = (function () {
     // Return the API
     return {
         'read_one': function (plant_id) {
-            console.log(plant_id);
             let ajax_options = {
                 type: 'GET',
                 url: '../../api/plant/' + plant_id,
@@ -27,7 +26,7 @@ ns.model = (function () {
                 .done(function (data) {
                     $event_pump.trigger('model_read_one_success', data);
                 })
-                .fail(function (xhr, textStatus, errorThrown){
+                .fail(function (xhr, textStatus, errorThrown) {
                     $event_pump.trigger('model_error', [xhr, textStatus, errorThrown]);
                 })
         },
@@ -40,12 +39,11 @@ ns.model = (function () {
                 dataType: 'json',
                 data: JSON.stringify({
                     'name': name,
-                    'image_file': img_file, 
-                    'min_fill_value': min_fill_value, 
+                    'image_file': img_file,
+                    'min_fill_value': min_fill_value,
                     'max_fill_value': max_fill_value
                 })
             };
-            console.log(ajax_options.data);
             $.ajax(ajax_options)
                 .done(function (data) {
                     $event_pump.trigger('model_update_success', [data]);
@@ -70,7 +68,7 @@ ns.view = (function () {
             // $fname.val('').focus();
         },
         update_editor: function (fname, lname) {
-            
+
         },
         build_one_div: function (plant) {
             if (plant) {
@@ -82,8 +80,8 @@ ns.view = (function () {
                 //     table += `<tr><td>${date.toLocaleDateString()} ${date.toLocaleTimeString()}</td><td>${plant.values[i].value}</td>`
                 // }
                 // table += `</tr></table>`;
-                let div = 
-                `<div class="details">
+                let div =
+                    `<div class="details">
                     <div>
                         <h2>${plant.name}</h2>
                         <img src="../../${plant.image_file}" alt="Image" loading="lazy">
@@ -91,7 +89,7 @@ ns.view = (function () {
                 // div +=
                 // `       ${table}`
                 div +=
-                `       </div>
+                    `       </div>
                 </div>`;
                 $('body').append(div);
             }
@@ -135,8 +133,6 @@ ns.controller = (function (m, v) {
             max_fill_value = parseInt($p_max_fill_value.val()),
             min_fill_value = parseInt($p_min_fill_value.val()),
             img_file = $p_img_file.val();
-        console.log(name);
-        console.log(max_fill_value, min_fill_value, img_file);
 
         e.preventDefault();
 
@@ -158,7 +154,7 @@ ns.controller = (function (m, v) {
     });
 
     $event_pump.on('model_update_success', function (e, data) {
-        window.location = "/plant/"+parseInt(plant_id.textContent);
+        window.location = "/plant/" + parseInt(plant_id.textContent);
     });
 
     $event_pump.on('model_error', function (e, xhr, textStatus, errorThrown) {

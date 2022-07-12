@@ -28,6 +28,10 @@ def read_one(plant_id):
     if plant is not None:
         plant_schema = ValuePlantSchema(many=False)
         data = plant_schema.dump(plant)
+
+        # sort data by report time
+        data['values'] = sorted(data['values'], key=lambda d: d['report_time'], reverse=False)
+
         return data
     else:
         abort(404, f"Plant {plant_id} not found.")
@@ -42,8 +46,6 @@ def create_plant(plant):
     existing_plant = Plant.query.filter(Plant.name == p_name).one_or_none()
 
     if existing_plant is None:
-        print("here")
-
         schema = PlantSchema()
         new_plant = schema.load(plant, session=db.session)
 
