@@ -69,6 +69,9 @@ ns_.view = (function () {
                 </div>`;
                 $('#p_container').append(div);
 
+                // insert name of plant into header
+                $('#details_header').append(plant.name);
+
                 // prepare data for graph
                 const dateformat_options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'};
 
