@@ -60,6 +60,9 @@ ns_.view = (function () {
                 let date = new Date(plant.creation_date);
                 $('#f_container').append(`<div id="creation">You kept ${plant.name} alive since ${date.toLocaleDateString()}!</div>`);
 
+                // insert name of plant into header
+                $('#details_header').append(plant.name);
+
                 // prepare data for graph
                 const dateformat_options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'};
 
