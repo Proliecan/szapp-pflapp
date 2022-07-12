@@ -31,22 +31,6 @@ ns_.model = (function () {
                     $event_pump.trigger('model_error', [xhr, textStatus, errorThrown]);
                 })
         },
-        'read_water_values': function (plant_id) {
-            console.log(plant_id);
-            let ajax_options = {
-                type: 'GET',
-                url: '../api/water_values/' + plant_id,
-                accepts: 'application/json',
-                dataType: 'json'
-            };
-            $.ajax(ajax_options)
-                .done(function (data) {
-                    $event_pump.trigger('model_read_success', data);
-                })
-                .fail(function (xhr, textStatus, errorThrown) {
-                    $event_pump.trigger('model_error', [xhr, textStatus, errorThrown]);
-                })
-        },
         'delete': function (plant_id) {
             let ajax_options = {
                 type: 'DELETE',
@@ -69,8 +53,6 @@ ns_.model = (function () {
 ns_.view = (function () {
     'use strict';
 
-    // let $name = $('#name');
-
     // return the API
     return {
         build_one_div: function (plant) {
@@ -91,9 +73,6 @@ ns_.view = (function () {
                 const dateformat_options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'};
 
                 let water_values = plant.values;
-                console.log(typeof water_values);
-                console.log(water_values);
-                console.log(water_values[0].id);
                 let labels_ = [];
                 let data_values = [];
                 for (let i = 0; i < water_values.length; i++) {
@@ -161,10 +140,6 @@ ns_.controller = (function (m, v) {
         model.read_one(parseInt(plant_id.textContent));
     }, 10);
 
-    // setTimeout(function () {
-    //     model.read_water_values(parseInt(plant_id.textContent));
-    // }, 100);
-
     // Validate input
     function validate(name) {
         return name !== "";
@@ -182,10 +157,6 @@ ns_.controller = (function (m, v) {
         e.preventDefault();
     });
 
-    $('#reset').click(function () {
-        view.reset();
-    })
-
     // Handle the model events
     $event_pump.on('model_read_one_success', function (e, data) {
         view.build_one_div(data);
@@ -195,10 +166,6 @@ ns_.controller = (function (m, v) {
 
     $event_pump.on('model_delete_success', function (e, data) {
         window.location = "/main_page";
-    });
-
-    $event_pump.on('model_read_success', function (e, data) {
-        view.build_graph(data);
     });
 
     $event_pump.on('model_error', function (e, xhr, textStatus, errorThrown) {
