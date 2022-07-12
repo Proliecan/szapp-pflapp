@@ -49,7 +49,7 @@ ns.view = (function () {
                     let dryWaterLevel = (plants[i].max_fill_value - plants[i].min_fill_value) * 0.3;
                     let additionalClass = '';
                     if (typeof plants[i].values[0] !== 'undefined') {
-                        water_value = plants[i].values[0].value;
+                        water_value = plants[i].values[plants[i].values.length - 1].value;
                         if (water_value <= dryWaterLevel) {
                             additionalClass = ' dry'
                         }
@@ -100,7 +100,6 @@ ns.controller = (function (m, v) {
     // Handle the model events
     $event_pump.on('model_read_success', function (e, data) {
         view.build_divs(data);
-        view.reset();
     });
 
     $event_pump.on('model_error', function (e, xhr, textStatus, errorThrown) {
