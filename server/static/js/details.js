@@ -58,7 +58,6 @@ ns_.view = (function () {
         build_one_div: function (plant) {
             if (plant) {
                 let date = new Date(plant.creation_date);
-                // $('#p_container').append(`<h2>${plant.name}</h2>`);
                 $('#f_container').append(`<div id="creation">You kept ${plant.name} alive since ${date.toLocaleDateString()}!</div>`);
 
                 // prepare data for graph

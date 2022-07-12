@@ -147,7 +147,7 @@ btn:focus#update {
     margin: 2rem;
     gap: 3rem;
     align-items: center;
-    width: 10%;
+    width: 15%;
     position: fixed;
     height: 100%;
     overflow: auto;
@@ -170,7 +170,7 @@ btn:focus#update {
     text-align: center;
 }
 
-.details #creation {
+#creation {
     font-size: xx-large;
 }
 

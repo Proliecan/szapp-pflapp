@@ -89,30 +89,39 @@
 
     </head>
 
-    <body style="display: flex; flex-direction: column; align-items: center;">
-        <h1>Update Plant {{ plant_id }}</h1>
+    <body>
         <p id="plant_id_field" hidden>{{ plant_id }}</p>
-        <form>
-            <label for="p_name">Plant Name:</label>
-            <input type="text" name="p_name" id="p_name" placeholder="Plant Name">
-            <br>
-            <label for="p_min_fill_value">Minimum fill value (cm):</label>
-            <input type="range" name="p_min_fill_value" id="p_min_fill_value" min="0" max="10" value="0"
-                oninput="this.nextElementSibling.value = this.value">
-            <output>0</output>
-            <br>
-            <label for="p_max_fill_value">Maximum fill value (cm):</label>
-            <input type="range" name="p_max_fill_value" id="p_max_fill_value" min="5" max="15" value="10"
-                oninput="this.nextElementSibling.value = this.value">
-            <output>10</output>
-            <br>
-            <label for="p_img_file" class="hidden">Image:</label>
-            <input type="text" id="p_img_file" name="p_img_filet" class="hidden">
-            <div id="my-icon-select" name="my-icon-select"></div>
-            <br>
-            <input class="btn" id="delete" type="reset" name="reset" value="Reset values" style="font-size: large;">
-            <button class="btn" id="update" style="font-size: large;">Update Plant</button>
-        </form>
+        
+        <table>
+            <thread>
+                <tr>
+                    <td id="tg--1pky">
+                        <form>
+                            <label for="p_name">Plant Name:</label>
+                            <input type="text" name="p_name" id="p_name" placeholder="Plant Name">
+                            <br>
+                            <label for="p_min_fill_value">Minimum fill value (cm):</label>
+                            <input type="range" name="p_min_fill_value" id="p_min_fill_value" min="0" max="10" value="0"
+                                oninput="this.nextElementSibling.value = this.value">
+                            <output>0</output>
+                            <br>
+                            <label for="p_max_fill_value">Maximum fill value (cm):</label>
+                            <input type="range" name="p_max_fill_value" id="p_max_fill_value" min="5" max="15" value="10"
+                                oninput="this.nextElementSibling.value = this.value">
+                            <output>10</output>
+                            <br>
+                            <label for="p_img_file" class="hidden">Image:</label>
+                            <input type="text" id="p_img_file" name="p_img_filet" class="hidden">
+                            <div id="my-icon-select" name="my-icon-select"></div>
+                            <br>
+                            <input class="btn" id="delete" type="reset" name="reset" value="Reset values" style="font-size: large;">
+                            <button class="btn" id="update" style="font-size: large;">Update Plant</button>
+                        </form>
+                    </td>
+                    <td id="tg-0pky"></td>
+                  </tr>
+            </thread>
+        </table>
 
     </body>
     <script type="application/x-javascript" src="../../static/js/edit.js"></script>
