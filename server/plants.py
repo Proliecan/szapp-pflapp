@@ -46,8 +46,6 @@ def create_plant(plant):
     existing_plant = Plant.query.filter(Plant.name == p_name).one_or_none()
 
     if existing_plant is None:
-        print("here")
-
         schema = PlantSchema()
         new_plant = schema.load(plant, session=db.session)
 

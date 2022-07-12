@@ -88,6 +88,8 @@ ns_.view = (function () {
                 $('#p_container').append(div);
 
                 // prepare data for graph
+                const dateformat_options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'};
+
                 let water_values = plant.values;
                 console.log(typeof water_values);
                 console.log(water_values);
@@ -97,7 +99,7 @@ ns_.view = (function () {
                 for (let i = 0; i < water_values.length; i++) {
                     let date = new Date(water_values[i].report_time);
 
-                    labels_.push(date);
+                    labels_.push(date.toLocaleDateString("de-DE", dateformat_options));
 
                     data_values.push(water_values[i].value);
                 }
